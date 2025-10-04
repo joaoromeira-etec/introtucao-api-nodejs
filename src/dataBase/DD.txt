@@ -1,0 +1,111 @@
+Dicionário de dados
+
+Tabela 1 - USUARIOS
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador	usu_id	INT		x		Auto-Incremento.
+Nome do Usuário	usu_nome	VARCHAR	32			
+Email	usu_email	VARCHAR	60			
+CPF	usu_cpf	CHAR	11			UNIQUE.
+Senha Criptografada	usu_senha_hash	VARCHAR	255			
+Telefone	usu_telefone	VARCHAR	15			
+Status do usuário	usu_status	BIT				0-Inativo; 1-Ativo.
+Alteração de Senha	usu_alterar_senha	BIT				0-Não Alterado; 1-Alterado.
+Fonte: Autoria própria
+
+Tabela 2 - EMPRESAS
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador	emp_id	INT		x		Auto-Incremento.
+Nome Fantasia da Empresa.	emp_nome_fantasia	VARCHAR	100			
+Razão Social da Empresa.	emp_razao_social	VARCHAR	150			
+CNPJ da Empresa.	emp_cnpj	CHAR	14			Unique 
+Endereço da Empresa.	emp_endereco	VARCHAR				
+Telefone da Empresa.	emp_telefone	VARCHAR	15			
+Tipo da Empresa.	emp_tipo	TINYINT				0-ME; 1-MEI com Escritório; 2-MEI Sem Escritório.
+Fonte: Autoria própria
+
+
+Tabela 3 – USUARIOS_EMPRESAS
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador da Tabela Empresa.	emp_id	INT		x	x	
+Identificador da Tabela Usuários.	usu_id	INT		x	x	
+Nível de acesso do usuário com a empresa.	usu_empre_nivel_acesso	TINYINT				
+Data do vínculo do Usuário com a Empresa	usu_emp_data_vínculo	DATE				
+Status do Usuário com determinada Empresa.	usu_emp_ativo	BIT				
+Observações.	usu_emp_observacoes	VARCHAR	200			NULL
+Fonte: Autoria própria
+
+Tabela  4 - REGIME
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador.	regi_id	INT		x		Auto-Incremento
+Nome do Regime.	regi_nome	VARCHAR	50			
+Descrição do Regime.	regi_descricao	VARCHAR	150			
+Limite do Faturamento anual da empresa.	regi_limite_faturamento_anal	DECIMAL	12,2			
+Tipo de Empresa que pode adotar um Regime.	regi_tipo_empresa_permitida	TINYINT				1 – Simples Nacional; 2 – Lucro Presumido; 3 – Lucro Real.
+Atividade do Regime.	regi_ativo	BIT				0 – Inativo; 1- Ativo.
+Fonte: Autoria própria
+
+Tabela 5 – REGIME_EMPRESA
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador.	regiemp_id	INT		x		Auto-Incremento
+Identificador da Tabela REGIME	regi_id	INT			x	
+Identificador da tabela EMPRESAS.	emp_id	INT			x	
+Data de Início do Regime da Empresa	regiemp_data_inicio	DATE				
+Data de Fim do Regime da Empresa	regiemp_data_fim	DATE				
+Motivo da Alteração do regime.	regiemp_motivo_alteracao	VARCHAR	100			
+Status do Regime.	regiemp_status	TINYINT				0-	Encerrado; 1- Ativo; 2-Suspenso
+Observações do Regime.	regiemp_observacoes	VARCHAR	100			
+Fonte: Autoria própria
+
+
+Tabela 6 - DOCUMENTOS
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador.	doc_id	INT		x		Auto-Incremento
+Identificador da Tabela Usuários.	usu_id	INT			x	
+Identificador da Tabela Empresa.	emp_id	INT			x	
+Identificador da Tabela Tipo Documentos.	tpd_id	INT			x	
+Nome do arquivo.	doc_arquivo_nome	VARCHAR	100			
+Status do Documento.	doc_status	TINYINT				0 – Pendente; 1 – Validado; 2 – Rejeitado; 3 – Corrigido. 
+Data do Upload do Documento.	doc_data_upload	DATETIME				
+Data de Emissão do Documento.	doc_data_emissao	DATE				
+Valor do Documento.	doc_valor	DECIMAL	12,2			
+Fonte: Autoria própria
+
+
+Tabela 7 -  TIPO_DOCUMENTOS
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador	tpd_id	INT		x		Auto-Incremento
+Descricão do Tipo do Documento.	tpd_descricao	VARCHAR	30.			
+Fonte: Autoria própria
+
+Tabela 8 - PRAZOS
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador.	Praz_id	INT		x		Auto-Incremento
+Identificador da Tabela Empresa	Emp_id	INT			x	
+Descrição do Prazo.	Praz_descricao	VARCHAR	50			
+Data de Vencimento do Prazo.	Praz_data_vencimento	DATE				
+Status do Prazo.	Praz_status.	TINYINT				 0 – pendente; 1 – concluído; 2 – vencido. 
+Fonte: Autoria própria
+
+Tabela 9 – AUDITORIA
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador da ação registrada	aud_id	INT		X		Auto-Incremento
+Identificador do usuário que fez a ação	usu_id	INT			X	
+Tipo de ação executada	aud_acao	TINYINT				0 – inserção; 1 – edição; 2 - exclusão
+Nome da tabela afetada	aud_tabela_afetada	VARCHAR	30			
+Nome do registro afetado	aud_registro_afetado	INT				
+Data e hora da ação	aud_data_acao	DATE				
+Fonte: Autoria própria
+
+Tabela 10 – SUPORTE.
+Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
+Identificador da solicitação de suporte	sup_id	INT		X		Auto-Incremento
+Identificador do usuário solicitante	usu_id_solicitante	INT			X	
+Identificador do usuário técnico	usu_id_responsavel	INT			X	
+Assunto da solicitação	sup_assunto	VARCHAR	50			
+Descrição do problema	sup_descricao	VARCHAR	500			
+Status da solicitação	sup_status	TINYINT				0 – Aberto; 1 – Em andamento; 2 – Concluído.
+Data da abertura	sup_data_abertura	DATETIME				
+Data da resposta	sup_data_suporte	DATETIME				
+Identificador da resposta	sup_id_resp	INT			X	
+Fonte: Autoria própria
+
