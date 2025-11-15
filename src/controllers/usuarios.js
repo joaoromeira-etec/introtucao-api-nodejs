@@ -20,7 +20,7 @@ module.exports = {
             );
         }
     },
-    async cadastrarUsuários (request, response) {
+    async cadastrarUsuarios (request, response) {
         try {
             return response.status(200).json (
                 {
@@ -58,7 +58,7 @@ module.exports = {
             );
         }
     },
-    async apagarUsuários (request, response) {
+    async apagarUsuarios (request, response) {
         try {
             return response.status(200).json (
                 {
