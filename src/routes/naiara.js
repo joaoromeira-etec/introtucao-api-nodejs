@@ -16,8 +16,8 @@ router.patch('/empresas', empresasController.editarEmpresas);
 router.delete('/empresas', empresasController.apagarEmpresas);
 
 router.get('/usuario_empresas', usuario_empresasController.listarUsuarioEmpresa);
-router.post('/empresas', usuario_empresasController.cadastrarUsuarioEmpresa);
-router.patch('/empresas', usuario_empresasController.editarUsuarioEmpresa);
-router.delete('/empresas', usuario_empresasController.apagarUsuarioEmpresa);
+router.post('/usuario_empresas', usuario_empresasController.cadastrarUsuarioEmpresa);
+router.patch('/usuario_empresas', usuario_empresasController.editarUsuarioEmpresa);
+router.delete('/usuario_empresas', usuario_empresasController.apagarUsuarioEmpresa);
 
 module.exports = router;
