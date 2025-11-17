@@ -5,7 +5,7 @@ SELECT emp_id, usu_id, usu_empre_nivel_acesso, usu_emp_data_vínculo, usu_emp_at
 SELECT regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anal, regi_tipo_empresa_permitida, regi_ativo FROM REGIME;
 SELECT regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes FROM REGIME_EMPRESA;
 SELECT tpd_id, tpd_descricao FROM TIPO_DOCUMENTOS;
-SELECT doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_status, doc_data_upload, doc_data_emissao, doc_valor FROM DOCUMENTOS;
+SELECT doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_status, doc_data_emissao, doc_valor FROM DOCUMENTOS;
 SELECT praz_id, emp_id, praz_descricao, praz_data_vencimento, praz_status FROM PRAZOS;
 SELECT aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_data_acao FROM AUDITORIA;
 SELECT sup_id, usu_id_solicitante, usu_id_responsavel, sup_assunto, sup_descricao, sup_status, sup_data_abertura, sup_data_suporte, sup_id_resp FROM SUPORTE;
