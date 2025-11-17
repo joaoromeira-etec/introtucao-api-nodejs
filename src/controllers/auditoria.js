@@ -18,7 +18,6 @@ module.exports = {
   }
 };
 
-const db = require('../dataBase/connection');
 
 module.exports = {  
   async cadastrarAuditoria(request, response) {    
@@ -39,7 +38,6 @@ module.exports = {
 };
 
 
-const db = require('../dataBase/connection');
 
 module.exports = {  
   async atualizarAuditoria(request, response) {    
@@ -60,7 +58,6 @@ module.exports = {
 };
 
 
-const db = require('../dataBase/connection');
 
 module.exports = {  
   async apagarAuditoria(request, response) {    

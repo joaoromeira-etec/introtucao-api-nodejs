@@ -18,7 +18,6 @@ module.exports = {
   }
 };
 
-const db = require('../dataBase/connection');
 
 module.exports = {  
   async cadastrarRegime(request, response) {    
@@ -39,7 +38,6 @@ module.exports = {
 };
 
 
-const db = require('../dataBase/connection');
 
 module.exports = {  
   async atualizarRegime(request, response) {    
@@ -59,8 +57,6 @@ module.exports = {
   }
 };
 
-
-const db = require('../dataBase/connection');
 
 module.exports = {  
   async apagarRegime(request, response) {    

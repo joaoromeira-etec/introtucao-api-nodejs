@@ -18,8 +18,6 @@ module.exports = {
   }
 };
 
-const db = require('../dataBase/connection');
-
 module.exports = {  
   async cadastrarPrazos(request, response) {    
     try {
@@ -39,7 +37,7 @@ module.exports = {
 };
 
 
-const db = require('../dataBase/connection');
+
 
 module.exports = {  
   async atualizarPrazos(request, response) {    
@@ -60,7 +58,7 @@ module.exports = {
 };
 
 
-const db = require('../dataBase/connection');
+
 
 module.exports = {  
   async apagarPrazos(request, response) {    
