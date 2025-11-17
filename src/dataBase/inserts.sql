@@ -53,13 +53,13 @@ INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao) VALUES
 (6, 'Outros');
 
 -- Inserts para DOCUMENTOS
-INSERT INTO DOCUMENTOS (doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_status, doc_data_upload, doc_data_emissao, doc_valor) VALUES
-(1, 1, 1, 1, 'nf1.pdf', 1, '2023-01-10 10:00:00', '2023-01-09', 1000.00),
-(2, 2, 2, 2, 'recibo1.pdf', 0, '2023-02-10 11:00:00', '2023-02-09', 500.00),
-(3, 3, 3, 3, 'contrato1.pdf', 1, '2023-03-10 12:00:00', '2023-03-09', 2000.00),
-(4, 4, 4, 4, 'boleto1.pdf', 2, '2023-04-10 13:00:00', '2023-04-09', 300.00),
-(5, 5, 5, 5, 'comprovante1.pdf', 3, '2023-05-10 14:00:00', '2023-05-09', 150.00),
-(6, 6, 6, 6, 'outros1.pdf', 1, '2023-06-10 15:00:00', '2023-06-09', 250.00);
+INSERT INTO DOCUMENTOS (doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_status, doc_data_emissao, doc_valor) VALUES
+(1, 1, 1, 1, 'nf1.pdf', 1, '2023-01-09', 1000.00),
+(2, 2, 2, 2, 'recibo1.pdf', 0, '2023-02-09', 500.00),
+(3, 3, 3, 3, 'contrato1.pdf', 1, '2023-03-09', 2000.00),
+(4, 4, 4, 4, 'boleto1.pdf', 2,, '2023-04-09', 300.00),
+(5, 5, 5, 5, 'comprovante1.pdf', 3, '2023-05-09', 150.00),
+(6, 6, 6, 6, 'outros1.pdf', 1, '2023-06-09', 250.00);
 
 -- Inserts para PRAZOS
 INSERT INTO PRAZOS (praz_id, emp_id, praz_descricao, praz_data_vencimento, praz_status) VALUES
