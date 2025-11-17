@@ -15,11 +15,11 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
-module.exports = {  
+
+ 
   async cadastrarRegime(request, response) {    
     try {
       return response.status(200).json({
@@ -34,13 +34,12 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
 
-module.exports = {  
-  async atualizarRegime(request, response) {    
+
+  async editarRegime(request, response) {    
     try {
       return response.status(200).json({
         SUCESSO: true,
@@ -54,11 +53,10 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
-module.exports = {  
+
   async apagarRegime(request, response) {    
     try {
       return response.status(200).json({
@@ -73,6 +71,6 @@ module.exports = {
         dados: null
       });
     }
-  }
+  },
 };
 

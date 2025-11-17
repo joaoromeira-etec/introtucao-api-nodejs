@@ -15,10 +15,10 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
-module.exports = {  
+
+ 
   async cadastrarPrazos(request, response) {    
     try {
       return response.status(200).json({
@@ -33,14 +33,13 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
 
 
-module.exports = {  
-  async atualizarPrazos(request, response) {    
+
+  async editarPrazos(request, response) {    
     try {
       return response.status(200).json({
         SUCESSO: true,
@@ -54,13 +53,12 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
 
 
-module.exports = {  
+
   async apagarPrazos(request, response) {    
     try {
       return response.status(200).json({
@@ -75,6 +73,6 @@ module.exports = {
         dados: null
       });
     }
-  }
+  },
 };
 

@@ -15,11 +15,11 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
-module.exports = {  
+
+
   async cadastrarAuditoria(request, response) {    
     try {
       return response.status(200).json({
@@ -34,13 +34,13 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
 
-module.exports = {  
-  async atualizarAuditoria(request, response) {    
+
+ 
+  async editarAuditoria(request, response) {    
     try {
       return response.status(200).json({
         SUCESSO: true,
@@ -54,12 +54,12 @@ module.exports = {
         dados: null
       });
     }
-  }
-};
+  },
 
 
 
-module.exports = {  
+
+ 
   async apagarAuditoria(request, response) {    
     try {
       return response.status(200).json({
@@ -74,6 +74,6 @@ module.exports = {
         dados: null
       });
     }
-  }
+  },
 };
 
