@@ -3,6 +3,27 @@ const db = require('../dataBase/connection');
 module.exports = {  
   async listarRegime(request, response) {    
     try {
+
+      const sql = `
+    SELECT 
+        regi_id, 
+        regi_nome, 
+        regi_descricao, 
+        regi_limite_faturamento_anal, 
+        regi_tipo_empresa_permitida, 
+        regi_ativo
+    FROM regime;
+`;
+
+const [regime] = await db.query(sql);
+
+return response.status(200).json({
+    sucesso: true,
+    mensagem: 'Lista de regimes',
+    itens: regime.length,
+    dados: regime
+});
+
       return response.status(200).json({
         SUCESSO: true,
         mensagem: 'Lista de regimes obtida com sucesso',

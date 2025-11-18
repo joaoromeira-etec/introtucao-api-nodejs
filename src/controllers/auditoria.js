@@ -3,6 +3,27 @@ const db = require('../dataBase/connection');
 module.exports = {  
   async listarAuditoria(request, response) {    
     try {
+
+      const sql = `
+    SELECT 
+        aud_id,
+        usu_id,
+        aud_acao,
+        aud_tabela_afetada,
+        aud_registro_afetado,
+        aud_data_acao
+    FROM auditoria;
+`;
+
+const [auditoria] = await db.query(sql);
+
+return response.status(200).json({
+    sucesso: true,
+    mensagem: 'Lista de auditorias',
+    itens: auditoria.length,
+    dados: auditoria
+});
+
       return response.status(200).json({
         SUCESSO: true,
         mensagem: 'Lista de auditoria obtida com sucesso',

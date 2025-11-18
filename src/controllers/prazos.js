@@ -3,6 +3,26 @@ const db = require('../dataBase/connection');
 module.exports = {  
   async listarPrazos(request, response) {    
     try {
+
+      const sql = `
+    SELECT 
+        praz_id, 
+        emp_id, 
+        praz_descricao, 
+        praz_data_vencimento, 
+        praz_status
+    FROM prazos;
+`;
+
+const [prazos] = await db.query(sql);
+
+return response.status(200).json({
+    sucesso: true,
+    mensagem: 'Lista de prazos',
+    itens: prazos.length,
+    dados: prazos
+});
+
       return response.status(200).json({
         SUCESSO: true,
         mensagem: 'Lista de prazos obtida com sucesso',
