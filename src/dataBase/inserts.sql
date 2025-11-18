@@ -7,14 +7,16 @@ INSERT INTO USUARIOS (usu_id, usu_nome, usu_email, usu_cpf, usu_senha_hash, usu_
 (5, 'Eduarda Melo', 'eduarda@email.com', '56789012345', 'hash5', '11999990005', 1, 0),
 (6, 'Felipe Costa', 'felipe@email.com', '67890123456', 'hash6', '11999990006', 0, 1);
 
--- Inserts para EMPRESAS
-INSERT INTO EMPRESAS (emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_telefone, emp_tipo) VALUES
-(1, 'Tech Solutions', 'Tech Solutions LTDA', '12345678000101', 'Rua A, 100', '1133330001', 0),
-(2, 'Comercial Dias', 'Comercial Dias ME', '23456789000102', 'Rua B, 200', '1133330002', 1),
-(3, 'Melo Serviços', 'Melo Serviços EIRELI', '34567890000103', 'Rua C, 300', '1133330003', 2),
-(4, 'Lima Store', 'Lima Store MEI', '45678901000104', 'Rua D, 400', '1133330004', 0),
-(5, 'Costa Market', 'Costa Market LTDA', '56789012000105', 'Rua E, 500', '1133330005', 1),
-(6, 'Silva Digital', 'Silva Digital ME', '67890123000106', 'Rua F, 600', '1133330006', 2);
+-- Inserts para EMPRESAS com todos os campos preenchidos
+INSERT INTO EMPRESAS 
+(emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo) 
+VALUES
+(1, 'Tech Solutions', 'Tech Solutions LTDA', '12345678000101', 'Rua A, 100', 'São Paulo', '(11) 3333-1001', 'contato@techsolutions.com', 1),
+(2, 'Comercial Dias', 'Comercial Dias ME', '23456789000102', 'Rua B, 200', 'Campinas', '(11) 3333-2002', 'vendas@comercialdias.com', 0),
+(3, 'Melo Serviços', 'Melo Serviços EIRELI', '34567890000103', 'Rua C, 300', 'Santos', '(11) 3333-3003', 'suporte@meloservicos.com', 1),
+(4, 'Lima Store', 'Lima Store MEI', '45678901000104', 'Rua D, 400', 'Sorocaba', '(11) 3333-4004', 'contato@limastore.com', 1),
+(5, 'Costa Market', 'Costa Market LTDA', '56789012000105', 'Rua E, 500', 'Ribeirão Preto', '(11) 3333-5005', 'atendimento@costamarket.com', 1),
+(6, 'Silva Digital', 'Silva Digital ME', '67890123000106', 'Rua F, 600', 'São Bernardo do Campo', '(11) 3333-6006', 'info@silvadigital.com', 0);
 
 -- Inserts para USUARIOS_EMPRESAS
 INSERT INTO USUARIOS_EMPRESAS (emp_id, usu_id, usu_empre_nivel_acesso, usu_emp_data_vínculo, usu_emp_ativo, usu_emp_observacoes) VALUES
@@ -53,13 +55,13 @@ INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao) VALUES
 (6, 'Outros');
 
 -- Inserts para DOCUMENTOS
-INSERT INTO DOCUMENTOS (doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_status, doc_data_emissao, doc_valor) VALUES
-(1, 1, 1, 1, 'nf1.pdf', 1, '2023-01-09', 1000.00),
-(2, 2, 2, 2, 'recibo1.pdf', 0, '2023-02-09', 500.00),
-(3, 3, 3, 3, 'contrato1.pdf', 1, '2023-03-09', 2000.00),
-(4, 4, 4, 4, 'boleto1.pdf', 2,, '2023-04-09', 300.00),
-(5, 5, 5, 5, 'comprovante1.pdf', 3, '2023-05-09', 150.00),
-(6, 6, 6, 6, 'outros1.pdf', 1, '2023-06-09', 250.00);
+INSERT INTO DOCUMENTOS (doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_data_emissao, doc_valor) VALUES
+(1, 1, 1, 1, 'nf1.pdf', '2023-01-09', 1000.00),
+(2, 2, 2, 2, 'recibo1.pdf', '2023-02-09', 500.00),
+(3, 3, 3, 3, 'contrato1.pdf', '2023-03-09', 2000.00),
+(4, 4, 4, 4, 'boleto1.pdf', '2023-04-09', 300.00),
+(5, 5, 5, 5, 'comprovante1.pdf', '2023-05-09', 150.00),
+(6, 6, 6, 6, 'outros1.pdf', '2023-06-09', 250.00);
 
 -- Inserts para PRAZOS
 INSERT INTO PRAZOS (praz_id, emp_id, praz_descricao, praz_data_vencimento, praz_status) VALUES

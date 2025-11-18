@@ -17,8 +17,10 @@ CREATE TABLE EMPRESAS (
     emp_razao_social VARCHAR(150) NOT NULL,
     emp_cnpj CHAR(14) UNIQUE NOT NULL,
     emp_endereco VARCHAR(255) NOT NULL,
-    emp_telefone VARCHAR(15) NOT NULL,
-    emp_tipo TINYINT NOT NULL
+    emp_municipio VARCHAR(100) NOT NULL,
+    emp_telefone VARCHAR(50) NOT NULL,
+    emp_email VARCHAR(100) NOT NULL,
+    emp_tipo BIT DEFAULT 0
 );
 
 CREATE TABLE USUARIOS_EMPRESAS (
