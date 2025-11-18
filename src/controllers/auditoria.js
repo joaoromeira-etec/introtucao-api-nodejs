@@ -19,16 +19,11 @@ const [auditoria] = await db.query(sql);
 
 return response.status(200).json({
     sucesso: true,
-    mensagem: 'Lista de auditorias',
+    mensagem: 'Lista de auditorias obtida com sucesso',
     itens: auditoria.length,
     dados: auditoria
 });
 
-      return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'Lista de auditoria obtida com sucesso',
-        dados: null
-      });
     } catch (error) {
       return response.status(500).json({
         SUCESSO: false,

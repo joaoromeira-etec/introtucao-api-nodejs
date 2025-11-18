@@ -19,16 +19,10 @@ const [regime] = await db.query(sql);
 
 return response.status(200).json({
     sucesso: true,
-    mensagem: 'Lista de regimes',
+    mensagem: 'Lista de regimes obtida com sucesso',
     itens: regime.length,
     dados: regime
 });
-
-      return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'Lista de regimes obtida com sucesso',
-        dados: null
-      });
     } catch (error) {
       return response.status(500).json({
         SUCESSO: false,

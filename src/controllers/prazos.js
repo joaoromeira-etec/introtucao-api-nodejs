@@ -18,16 +18,10 @@ const [prazos] = await db.query(sql);
 
 return response.status(200).json({
     sucesso: true,
-    mensagem: 'Lista de prazos',
+    mensagem: 'Lista de prazos obtida com sucesso',
     itens: prazos.length,
     dados: prazos
 });
-
-      return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'Lista de prazos obtida com sucesso',
-        dados: null
-      });
     } catch (error) {
       return response.status(500).json({
         SUCESSO: false,

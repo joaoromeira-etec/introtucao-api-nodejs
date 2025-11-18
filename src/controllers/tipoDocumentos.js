@@ -37,11 +37,30 @@ module.exports = {
 
      async cadastrarDocumentos (request, response) {
         try{
+
+            const { descricao } = request.body;
+
+            const sql = `
+            INSERT INTO TIPO_DOCUMENTOS 
+                (tpd_descricao) 
+            VALUES 
+                (?);
+            `;
+
+            const values = [descricao];
+
+            const [result] =  await db.query(sql, values);
+
+            const dados = {
+                tpd_id: result.insertId,
+                descricao
+            };
+          
             return response.status(200).json(
                 {
                     sucesso: true,
                     mensagem: 'Cadastro de tipos de documentos realizado com sucesso',
-                    dados: null
+                    dados: dados
                 }
             );
         }        catch (error) {
@@ -49,7 +68,7 @@ module.exports = {
                 {
                     sucesso: false,
                     mensagem: `Erro ao cadastrar os seguintes tipos de documentos: ${error.message}`,
-                    dados: null
+                    dados: error.message
                 }
             );
         }

@@ -3,11 +3,22 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarRegimeEmpresa (request, response) {
         try{
+
+            const sql = `
+                SELECT
+                    regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, 
+                    regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes 
+                FROM REGIME_EMPRESA;
+            `;
+
+            const [regimeEmpresas] =  await db.query(sql);
+
             return response.status(200).json(
                 {
                     sucesso: true,
                     mensagem: 'Regimes de empresas listados com sucesso',
-                    dados: null
+                    itens: regimeEmpresas.length,
+                    dados: regimeEmpresas,
                 }
             );
         }        catch (error) {
