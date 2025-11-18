@@ -1,7 +1,7 @@
 -- SELECTs simples para cada tabela
 SELECT usu_id, usu_nome, usu_email, usu_cpf, usu_senha_hash, usu_telefone, usu_status, usu_alterar_senha FROM USUARIOS;
 SELECT emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_telefone, emp_tipo FROM EMPRESAS;
-SELECT emp_id, usu_id, usu_empre_nivel_acesso, usu_emp_data_vínculo, usu_emp_ativo, usu_emp_observacoes FROM USUARIOS_EMPRESAS;
+SELECT emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes FROM USUARIOS_EMPRESAS;
 SELECT regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anal, regi_tipo_empresa_permitida, regi_ativo FROM REGIME;
 SELECT regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes FROM REGIME_EMPRESA;
 SELECT tpd_id, tpd_descricao FROM TIPO_DOCUMENTOS;
@@ -11,7 +11,7 @@ SELECT aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_d
 SELECT sup_id, usu_id_solicitante, usu_id_responsavel, sup_assunto, sup_descricao, sup_status, sup_data_abertura, sup_data_suporte, sup_id_resp FROM SUPORTE;
 
 -- SELECTs com INNER JOIN para tabelas com chave estrangeira
-SELECT ue.emp_id, e.emp_nome_fantasia, ue.usu_id, u.usu_nome, ue.usu_empre_nivel_acesso, ue.usu_emp_data_vínculo, ue.usu_emp_ativo, ue.usu_emp_observacoes
+SELECT ue.emp_id, e.emp_nome_fantasia, ue.usu_id, u.usu_nome, ue.usu_emp_nivel_acesso, ue.usu_emp_data_vínculo, ue.usu_emp_ativo, ue.usu_emp_observacoes
 FROM USUARIOS_EMPRESAS ue
 INNER JOIN EMPRESAS e ON ue.emp_id = e.emp_id
 INNER JOIN USUARIOS u ON ue.usu_id = u.usu_id;

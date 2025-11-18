@@ -3,11 +3,22 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarEmpresas (request, response) {
         try {
+
+            const sql = 
+            ` SELECT
+                emp_id, emp_nome_fantasia, emp_razao_social,
+                emp_cnpj, emp_endereco, emp_telefone, emp_tipo
+            FROM EMPRESAS;
+            `;
+
+            const [empresas] =  await db.query(sql);
+
             return response.status(200).json (
                 {
                     sucesso: true,
                     mensagem: 'Lista de empresas obtida com sucesso',
-                    dados: null
+                    itens: empresas.length,
+                    dados: empresas
                 }
             );
         } catch (error) {
