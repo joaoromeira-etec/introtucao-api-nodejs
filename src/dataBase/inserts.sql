@@ -28,22 +28,25 @@ INSERT INTO USUARIO_EMPRESAS (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data
 (6, 6, 2, '2023-06-01', 1, 'TI');
 
 -- Inserts para REGIME
-INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anal, regi_tipo_empresa_permitida, regi_ativo) VALUES
-(1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1, 1),
-(2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2, 1),
-(3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3, 1),
-(4, 'MEI', 'Microempreendedor Individual', 81000.00, 1, 1),
-(5, 'Especial', 'Regime especial', 1000000.00, 2, 0),
-(6, 'Isento', 'Isento de regime', 0.00, 3, 0);
+INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anal, regi_tipo_empresa_permitida) VALUES
+(1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1),
+(2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2),
+(3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3),
+(4, 'MEI', 'Microempreendedor Individual', 81000.00, 1),
+(5, 'Especial', 'Regime especial', 1000000.00, 2),
+(6, 'Isento', 'Isento de regime', 0.00, 3);
 
 -- Inserts para REGIME_EMPRESA
-INSERT INTO REGIME_EMPRESA (regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes) VALUES
-(1, 1, 1, '2023-01-01', '2023-12-31', 'Mudança anual', 1, 'Ativo'),
-(2, 2, 2, '2023-02-01', '2023-12-31', 'Atualização', 1, 'Ativo'),
-(3, 3, 3, '2023-03-01', '2023-12-31', 'Revisão', 2, 'Suspenso'),
-(4, 4, 4, '2023-04-01', '2023-12-31', 'Mudança', 0, 'Encerrado'),
-(5, 5, 5, '2023-05-01', '2023-12-31', 'Ajuste', 1, 'Ativo'),
-(6, 6, 6, '2023-06-01', '2023-12-31', 'Novo regime', 1, 'Ativo');
+
+INSERT INTO REGIME_EMPRESA 
+(regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes) VALUES
+(1, 1, 1, '2023-01-01', NULL, NULL, 1, 'Ativo'),
+(2, 2, 2, '2023-02-01', NULL, NULL, 1, 'Ativo'),
+(3, 3, 3, '2023-03-01', NULL, NULL, 1, 'Ativo'),
+(4, 4, 4, '2023-04-01', '2023-12-31', 'Mudança para outro regime', 0, 'Encerrado'),
+(5, 5, 5, '2023-05-01', '2023-12-31', 'Encerramento da empresa', 0, 'Encerrado'),
+(6, 6, 6, '2023-06-01', '2023-12-31', 'Revisão anual', 2, 'Suspenso');
+
 
 -- Inserts para TIPO_DOCUMENTOS
 INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao) VALUES

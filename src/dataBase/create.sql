@@ -40,8 +40,7 @@ CREATE TABLE REGIME (
     regi_nome VARCHAR(50) NOT NULL,
     regi_descricao VARCHAR(150) NOT NULL,
     regi_limite_faturamento_anal DECIMAL(12,2) NOT NULL,
-    regi_tipo_empresa_permitida TINYINT NOT NULL,
-    regi_ativo BIT DEFAULT 1
+    regi_tipo_empresa_permitida TINYINT NOT NULL
 );
 
 CREATE TABLE REGIME_EMPRESA (
@@ -49,8 +48,8 @@ CREATE TABLE REGIME_EMPRESA (
     regi_id INT,
     emp_id INT,
     regiemp_data_inicio DATE NOT NULL,
-    regiemp_data_fim DATE NOT NULL,
-    regiemp_motivo_alteracao VARCHAR(100) NOT NULL,
+    regiemp_data_fim DATE NULL,
+    regiemp_motivo_alteracao VARCHAR(100) NULL,
     regiemp_status TINYINT NOT NULL,
     regiemp_observacoes VARCHAR(100) NULL,
     FOREIGN KEY (regi_id) REFERENCES REGIME(regi_id),
