@@ -23,11 +23,11 @@ CREATE TABLE EMPRESAS (
     emp_tipo BIT DEFAULT 0
 );
 
-CREATE TABLE USUARIOS_EMPRESAS (
+CREATE TABLE USUARIO_EMPRESAS (
     emp_id INT,
     usu_id INT,
-    usu_empre_nivel_acesso TINYINT NOT NULL,
-    usu_emp_data_vínculo DATE NOT NULL,
+    usu_emp_nivel_acesso TINYINT NOT NULL,
+    usu_emp_data_vinculo DATE NOT NULL,
     usu_emp_ativo BIT DEFAULT 1,
     usu_emp_observacoes VARCHAR(200) NULL,
     PRIMARY KEY (emp_id, usu_id),

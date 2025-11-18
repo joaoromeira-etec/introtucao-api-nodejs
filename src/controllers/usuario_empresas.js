@@ -4,21 +4,21 @@ module.exports = {
     async listarUsuarioEmpresa (request, response) {
         try {
 
-            //const sql = 
-            //`SELECT
-              //  emp_id, usu_id, usu_emp_nivel_acesso,
-                //usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes
-            //FROM USUARIOS_EMPRESAS;
-            //`;
+            const sql = 
+            `SELECT
+                emp_id, usu_id, usu_emp_nivel_acesso,
+                usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes
+            FROM USUARIO_EMPRESAS;
+            `;
 
-            //const [usuario_empresas] = await db.query (sql);
+            const [usuario_empresas] = await db.query (sql);
 
             return response.status(200).json (
                 {
                     sucesso: true,
                     mensagem: 'Lista de usuários por empresa obtida com sucesso',
-              //      itens: usuario_empresas.length,
-                //    dados: usuario_empresas
+                    itens: usuario_empresas.length,
+                    dados: usuario_empresas
                 }
             );
         } catch (error) {

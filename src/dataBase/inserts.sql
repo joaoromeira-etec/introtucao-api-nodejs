@@ -18,8 +18,8 @@ VALUES
 (5, 'Costa Market', 'Costa Market LTDA', '56789012000105', 'Rua E, 500', 'Ribeirão Preto', '(11) 3333-5005', 'atendimento@costamarket.com', 1),
 (6, 'Silva Digital', 'Silva Digital ME', '67890123000106', 'Rua F, 600', 'São Bernardo do Campo', '(11) 3333-6006', 'info@silvadigital.com', 0);
 
--- Inserts para USUARIOS_EMPRESAS
-INSERT INTO USUARIOS_EMPRESAS (emp_id, usu_id, usu_empre_nivel_acesso, usu_emp_data_vínculo, usu_emp_ativo, usu_emp_observacoes) VALUES
+-- Inserts para USUARIO_EMPRESAS
+INSERT INTO USUARIO_EMPRESAS (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes) VALUES
 (1, 1, 1, '2023-01-01', 1, 'Administrador'),
 (2, 2, 2, '2023-02-01', 1, 'Gerente'),
 (3, 3, 1, '2023-03-01', 0, 'Inativo'),
