@@ -68,8 +68,6 @@ CREATE TABLE DOCUMENTOS (
     emp_id INT,
     tpd_id INT,
     doc_arquivo_nome VARCHAR(100) NOT NULL,
-    doc_status TINYINT NOT NULL,
-    doc_data_upload DATETIME NOT NULL,
     doc_data_emissao DATE NOT NULL,
     doc_valor DECIMAL(12,2) NOT NULL,
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id),
