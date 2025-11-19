@@ -35,11 +35,12 @@ module.exports = {
     },
 
 
-     async cadastrarDocumentos (request, response) {
+     async cadastrarTipoDocumentos (request, response) {
         try{
 
-            const { descricao } = request.body;
+            const { id, descricao } = request.body;
 
+            //Instrução SQL
             const sql = `
             INSERT INTO TIPO_DOCUMENTOS 
                 (tpd_descricao) 
@@ -47,12 +48,15 @@ module.exports = {
                 (?);
             `;
 
+            //Valores
             const values = [descricao];
 
+            //Execução da query
             const [result] =  await db.query(sql, values);
 
+            //Identificação do ID inserido.
             const dados = {
-                tpd_id: result.insertId,
+                id : result.insertId,
                 descricao
             };
           

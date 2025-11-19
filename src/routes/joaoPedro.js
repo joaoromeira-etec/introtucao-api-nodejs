@@ -9,7 +9,7 @@ const RegimeEmpresaController = require('../controllers/regimeEmpresa');
 
 // Rotas para Tipo de Documentos
 router.get('/tipoDocumentos', TipoDocumentosController.listarTipoDocumentos);
-router.post('/tipoDocumentos', TipoDocumentosController.cadastrarDocumentos);   
+router.post('/tipoDocumentos', TipoDocumentosController.cadastrarTipoDocumentos);   
 router.patch('/tipoDocumentos', TipoDocumentosController.editarTipoDocumentos);
 router.delete('/tipoDocumentos', TipoDocumentosController.apagarTipoDocumentos);
 
