@@ -6,8 +6,8 @@ module.exports = {
 
             const sql = 
             ` SELECT
-                emp_id, emp_nome_fantasia, emp_razao_social,
-                emp_cnpj, emp_endereco, emp_telefone, emp_tipo
+                emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj,
+                emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo
             FROM EMPRESAS;
             `;
 
@@ -33,19 +33,46 @@ module.exports = {
     },
     async cadastrarEmpresas (request, response) {
         try {
+
+            const {nome, razao_social, cnpj, endereco, municipio, telefone, email, tipo} = request.body;
+
+            const sql = `
+            INSERT INTO empresas
+                (emp_nome_fantasia, emp_razao_social, emp_cnpj,
+                emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo)
+            VALUES 
+                (?, ?, ?, ?, ?, ?, ?, ?);
+                `;
+            
+            const values = [nome, razao_social, cnpj, endereco, municipio, telefone, email, tipo];
+            
+            const [result] = await db.query(sql, values);
+
+            const dados = {
+                id: result.insertId,
+                nome,
+                razao_social,
+                cnpj,
+                endereco,
+                municipio,
+                telefone,
+                email,
+                tipo
+            };
+
             return response.status(200).json (
                 {
                     sucesso: true,
                     mensagem: 'Cadastro de empresa obtida com sucesso',
-                    dados: null
+                    dados: dados
                 }
             );
         } catch (error) {
             return response.status (500).json (
                 {
                     sucesso: false,
-                    mensagem: `Erro ao cadastrar empresa: ${error.message}`,
-                    dados: null
+                    mensagem: `Erro ao cadastrar empresa.`,
+                    dados: error.message
                 }
             );
         }
