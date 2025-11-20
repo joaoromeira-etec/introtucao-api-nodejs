@@ -10,8 +10,7 @@ module.exports = {
         regi_nome, 
         regi_descricao, 
         regi_limite_faturamento_anal, 
-        regi_tipo_empresa_permitida, 
-        regi_ativo
+        regi_tipo_empresa_permitida 
     FROM regime;
 `;
 

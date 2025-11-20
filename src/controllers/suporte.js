@@ -35,11 +35,46 @@ module.exports = {
 
      async cadastrarSuporte (request, response) {
         try{
+
+            //Dados do corpo da requisição
+            const { usu_id_solicitante, usu_id_responsavel, assunto, descricao,
+                status, dt_abertura, dt_suporte, sup_id_resp } = request.body;
+
+            //Instrução SQL
+            // PS: usu_id_solicitante e usu_id_responsavel são chaves estrangeiras
+            const sql = `
+                INSERT INTO SUPORTE 
+                    (usu_id_solicitante, usu_id_responsavel, sup_assunto, sup_descricao,
+                    sup_status, sup_data_abertura, sup_data_suporte, sup_id_resp) 
+                VALUES
+                    (?, ?, ?, ?, ?, ?, ?, ?);
+            `;
+
+            //Valores
+            const values = [usu_id_solicitante, usu_id_responsavel, assunto, descricao,
+                status, dt_abertura, dt_suporte, sup_id_resp];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            //Identificação do ID inserido.
+            const dados = {
+                id : result.insertId,
+                usu_id_solicitante, 
+                usu_id_responsavel,
+                assunto,
+                descricao,
+                status,
+                dt_abertura,
+                dt_suporte,
+                sup_id_resp
+            };
+
             return response.status(200).json(
                 {
                     sucesso: true,
                     mensagem: 'Cadastro de suportes realizado com sucesso',
-                    dados: null
+                    dados: dados
                 }
             );
         }        catch (error) {
@@ -47,7 +82,7 @@ module.exports = {
                 {
                     sucesso: false,
                     mensagem: `Erro ao cadastrar os seguintes suportes: ${error.message}`,
-                    dados: null
+                    dados: error.message
                 }
             );
         }

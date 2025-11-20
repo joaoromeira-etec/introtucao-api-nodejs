@@ -7,7 +7,7 @@ module.exports = {
             const sql = `
             SELECT 
                 doc_id, usu_id, emp_id, tpd_id, 
-                doc_arquivo_nome, doc_status, doc_data_emissao, doc_valor 
+                doc_arquivo_nome, doc_data_emissao, doc_valor 
             FROM DOCUMENTOS;
             `;
 
@@ -35,11 +35,44 @@ module.exports = {
 
      async cadastrarDocumentos (request, response) {
         try{
+
+            //Dados do corpo da requisição
+            const { usu_id, emp_id, tpd_id, nome, dt_emissao, valor } = request.body;
+
+            //Instrução SQL
+            // PS: usu_id, emp_id e tpd_id são chaves estrangeiras
+            const sql = `
+            INSERT INTO DOCUMENTOS 
+                (usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_data_emissao, doc_valor) 
+            VALUES
+                (?, ?, ?, ?, ?, ?);
+            `;
+
+            //Valores
+            const values = [usu_id, emp_id, tpd_id, nome, dt_emissao, valor];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            //Identificação do ID inserido.
+            const dados = {
+                id : result.insertId,
+                usu_id,
+                emp_id,
+                tpd_id,
+                nome,
+                dt_emissao,
+                valor
+            };
+          
+
+
+
             return response.status(200).json(
                 {
                     sucesso: true,
                     mensagem: 'Cadastro de documentos realizado com sucesso',
-                    dados: null
+                    dados: dados
                 }
             );
         }        catch (error) {
@@ -47,7 +80,7 @@ module.exports = {
                 {
                     sucesso: false,
                     mensagem: `Erro ao cadastrar os seguintes documentos: ${error.message}`,
-                    dados: null
+                    dados: error.message
                 }
             );
         }

@@ -35,11 +35,46 @@ module.exports = {
 
      async cadastrarRegimeEmpresa (request, response) {
         try{
+
+            //Dados do corpo da requisição
+            const { regi_id, emp_id, dt_inicio, dt_fim,
+                motivo_alteracao, status, observacoes } = request.body;
+
+
+            //Instrução SQL
+            // PS: regi_id e emp_id são chaves estrangeiras
+            const sql = `
+                INSERT INTO REGIME_EMPRESA 
+                    (regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim,
+                    regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes)
+                VALUES
+                    (?, ?, ?, ?, ?, ?, ?);
+            `;
+
+            //Valores
+            const values = [regi_id, emp_id, dt_inicio, dt_fim,
+                motivo_alteracao, status, observacoes];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            //Identificação do ID inserido.
+            const dados = {
+                id : result.insertId,
+                regi_id,
+                emp_id,
+                dt_inicio,
+                dt_fim,
+                motivo_alteracao,
+                status,
+                observacoes
+            };
+
             return response.status(200).json(
                 {
                     sucesso: true,
                     mensagem: 'Cadastro de regime das empresas realizado com sucesso',
-                    dados: null
+                    dados: dados
                 }
             );
         }        catch (error) {
@@ -47,7 +82,7 @@ module.exports = {
                 {
                     sucesso: false,
                     mensagem: `Erro ao cadastrar os seguintes regimes das empresas: ${error.message}`,
-                    dados: null
+                    dados: error.message
                 }
             );
         }
