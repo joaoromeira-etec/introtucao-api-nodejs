@@ -88,19 +88,55 @@ module.exports = {
 
     async editarDocumentos (request, response) {
         try{
+
+            //parâmetros do corpo da requisição
+            const { arq_nome, dt_emissao, valor } = request.body;
+
+            //parametros da rota via URL
+            const { id } = request.params;
+
+            // Instrução SQL
+            const sql = `
+            UPDATE DOCUMENTOS SET
+                doc_arquivo_nome = ?, doc_data_emissao = ?, doc_valor = ?
+            WHERE
+                doc_id = ?;
+            `;
+
+            //Valores em Array.
+            const values = [arq_nome, dt_emissao, valor, id];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                        sucesso: false,
+                        mensagem: 'Documento não encontrado para atualização',
+                        dados: null
+                    });
+            }
+
+            const dados = {
+                id,
+                arq_nome,
+                dt_emissao,
+                valor
+            };
+
             return response.status(200).json(
                 {
                     sucesso: true,
-                    mensagem: 'Atualização de documentos realizada com sucesso',
-                    dados: null
+                    mensagem: `Atualização do documento ${id} realizada com sucesso`,
+                    dados
                 }
             );
         }        catch (error) {
             return response.status(500).json(
                 {
                     sucesso: false,
-                    mensagem: `Erro ao atualizar os seguintes documentos: ${error.message}`,
-                    dados: null
+                    mensagem: 'Erro na requisição.',
+                    dados: error.message
                 }
             );
         }

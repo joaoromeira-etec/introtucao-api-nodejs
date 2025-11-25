@@ -80,19 +80,52 @@ module.exports = {
 
     async editarTipoDocumentos (request, response) {
         try{
+
+            //parâmetros do corpo da requisição
+            const { descricao } = request.body;
+
+            //parametros da rota via URL
+            const { id } = request.params;
+
+            //Instrução SQL
+            const sql = `
+            UPDATE TIPO_DOCUMENTOS 
+            SET tpd_descricao = ? 
+            WHERE tpd_id = ?;
+            `;
+
+            //Valores em array.
+            const values = [descricao, id];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            //Verifica se algum registro foi afetado
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem:` Tipo de documento ${id} não encontrado.`,
+                    dados: null
+                });
+            }
+
+            const dados = {
+                id,
+                descricao: descricao
+            };
             return response.status(200).json(
                 {
                     sucesso: true,
-                    mensagem: 'Atualização dos tipos dos documentos realizada com sucesso',
-                    dados: null
+                    mensagem: `Tipos de documentos ${id} atualizado com sucesso`,
+                    dados
                 }
             );
         }        catch (error) {
             return response.status(500).json(
                 {
                     sucesso: false,
-                    mensagem: `Erro ao atualizar os seguintes tipos dos documentos: ${error.message}`,
-                    dados: null
+                    mensagem: 'Erro na requisição.',
+                    dados: error.message
                 }
             );
         }

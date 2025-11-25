@@ -90,19 +90,64 @@ module.exports = {
 
     async editarSuporte (request, response) {
         try{
+
+            //parâmetros do corpo da requisição
+            const { usu_id_solicitante, usu_id_responsavel, assunto, descricao,
+                status, dt_abertura, dt_suporte, sup_id_resp } = request.body;
+
+            //parametros da rota via URL
+            const { id } = request.params;
+
+            //Instrução SQL
+            const sql = `
+                UPDATE SUPORTE SET
+                    usu_id_solicitante = ?, usu_id_responsavel = ?, 
+                    sup_assunto = ?, sup_descricao = ?,
+                    sup_status = ?, sup_data_abertura = ?, 
+                    sup_data_suporte = ?, sup_id_resp = ?
+                WHERE sup_id = ?;
+            `;
+
+            //Valores
+            const values = [usu_id_solicitante, usu_id_responsavel, assunto, descricao,
+                status,  dt_abertura, dt_suporte, sup_id_resp, id];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Suporte com ID ${id} não encontrado.`,
+                    dados: null
+                });
+            }
+
+            dados = {
+                id,
+                usu_id_solicitante,
+                usu_id_responsavel,
+                assunto,
+                descricao,
+                status,
+                dt_abertura,
+                dt_suporte,
+                sup_id_resp
+            };
+
             return response.status(200).json(
                 {
                     sucesso: true,
-                    mensagem: 'Atualização de suportes realizada com sucesso',
-                    dados: null
+                    mensagem: `Pedido de suporte ${id} atualizado com sucesso`,
+                    dados
                 }
             );
         }        catch (error) {
             return response.status(500).json(
                 {
                     sucesso: false,
-                    mensagem: `Erro ao atualizar os seguintes suportes: ${error.message}`,
-                    dados: null
+                    mensagem: 'Erro de requisição.',
+                    dados: error.message
                 }
             );
         }

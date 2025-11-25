@@ -19,10 +19,13 @@ VALUES
 (6, 'Silva Digital', 'Silva Digital ME', '67890123000106', 'Rua F, 600', 'São Bernardo do Campo', '(11) 3333-6006', 'info@silvadigital.com', 0);
 
 -- Inserts para USUARIO_EMPRESAS
-INSERT INTO USUARIO_EMPRESAS (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes) VALUES
-(1, 1, 1, '2023-01-01', 1, 'Administrador'),
-(2, 2, 2, '2023-02-01', 1, 'Gerente'),
-(3, 3, 1, '2023-03-01', 0, 'Inativo'),
+-- PS: usu_emp_nivel_acesso: 0-Visualizador, 1-Gerente (total), 2-Administrador (parcial)
+INSERT INTO USUARIO_EMPRESAS 
+(emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes) 
+VALUES
+(1, 1, 1, '2023-01-01', 1, 'Gerente'),
+(2, 2, 2, '2023-02-01', 1, 'Administrador'),
+(3, 3, 0, '2023-03-01', 0, 'Inativo'),
 (4, 4, 2, '2023-04-01', 1, 'Financeiro'),
 (5, 5, 1, '2023-05-01', 1, 'RH'),
 (6, 6, 2, '2023-06-01', 1, 'TI');
@@ -85,6 +88,7 @@ INSERT INTO AUDITORIA (aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registr
 (6, 6, 2, 'SUPORTE', 6, '2023-06-01');
 
 -- Inserts para SUPORTE
+-- sup_status: 0-Aberto, 1-Em Andamento, 2-Fechado
 INSERT INTO SUPORTE (sup_id, usu_id_solicitante, usu_id_responsavel, sup_assunto, sup_descricao, sup_status, sup_data_abertura, sup_data_suporte, sup_id_resp) VALUES
 (1, 1, 2, 'Erro de acesso', 'Não consigo acessar o sistema', 0, '2023-01-01 09:00:00', '2023-01-01 10:00:00', 3),
 (2, 2, 3, 'Dúvida fiscal', 'Como emitir nota?', 1, '2023-02-01 09:00:00', '2023-02-01 10:00:00', 4),

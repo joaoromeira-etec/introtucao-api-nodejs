@@ -90,19 +90,62 @@ module.exports = {
 
     async editarRegimeEmpresa (request, response) {
         try{
+
+            //parâmetros do corpo da requisição
+            const {regi_id, emp_id, dt_inicio, dt_fim,
+                motivo_alteracao, status, observacoes} = request.body;
+
+            //parametros da rota via URL
+            const { id } = request.params;
+
+            //Instrução SQL
+            const sql = `
+                UPDATE REGIME_EMPRESA SET
+                    regi_id = ?, emp_id = ?, regiemp_data_inicio = ?, 
+                    regiemp_data_fim = ?,  regiemp_motivo_alteracao = ?, 
+                    regiemp_status = ?, regiemp_observacoes = ?
+                WHERE regiemp_id = ?;
+            `;
+
+            //Valores em array.
+            const values = [regi_id, emp_id, dt_inicio, dt_fim,
+                motivo_alteracao, status, observacoes, id];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Regime da empresa com ID ${id} não encontrado.`,
+                    dados: null
+                });
+            }
+
+            const dados = {
+                id,
+                regi_id,
+                emp_id,
+                dt_inicio,
+                dt_fim,
+                motivo_alteracao,
+                status,
+                observacoes
+            };
+
             return response.status(200).json(
                 {
                     sucesso: true,
-                    mensagem: 'Atualização dos regimes das empresas realizada com sucesso',
-                    dados: null
+                    mensagem: `Regime da empresa ${id} atualizado com sucesso`,
+                    dados
                 }
             );
         }        catch (error) {
             return response.status(500).json(
                 {
                     sucesso: false,
-                    mensagem: `Erro ao atualizar os seguintes regimes das empresas: ${error.message}`,
-                    dados: null
+                    mensagem: 'Erro na requisição.',
+                    dados: error.message
                 }
             );
         }
