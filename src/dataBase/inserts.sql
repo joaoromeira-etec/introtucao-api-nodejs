@@ -28,7 +28,7 @@ INSERT INTO USUARIO_EMPRESAS (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data
 (6, 6, 2, '2023-06-01', 1, 'TI');
 
 -- Inserts para REGIME
-INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anal, regi_tipo_empresa_permitida) VALUES
+INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida) VALUES
 (1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1),
 (2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2),
 (3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3),

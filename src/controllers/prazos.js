@@ -35,11 +35,44 @@ return response.status(200).json({
  
   async cadastrarPrazos(request, response) {    
     try {
-      return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'cadastro de prazo realizado com sucesso',
-        dados: null
-      });
+
+    // Dados do corpo da requisição
+const { emp_id, praz_descricao, praz_data_vencimento, praz_status } = request.body;
+
+// Instrução SQL
+const sql = `
+    INSERT INTO PRAZOS 
+        (emp_id, praz_descricao, praz_data_vencimento, praz_status)
+    VALUES
+        (?, ?, ?, ?);
+`;
+
+// Valores
+const values = [
+    emp_id,
+    praz_descricao,
+    praz_data_vencimento,
+    praz_status
+];
+
+// Execução da query
+const [result] = await db.query(sql, values);
+
+// Identificação do ID inserido
+const dados = {
+    id: result.insertId,
+    emp_id,
+    praz_descricao,
+    praz_data_vencimento,
+    praz_status
+};
+
+return response.status(200).json({
+    SUCESSO: true,
+    mensagem: 'Prazo cadastrado com sucesso',
+    dados
+});
+
     } catch (error) {
       return response.status(500).json({
         SUCESSO: false,

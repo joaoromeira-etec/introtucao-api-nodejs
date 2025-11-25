@@ -9,7 +9,7 @@ module.exports = {
         regi_id, 
         regi_nome, 
         regi_descricao, 
-        regi_limite_faturamento_anal, 
+        regi_limite_faturamento_anual, 
         regi_tipo_empresa_permitida 
     FROM regime;
 `;
@@ -36,11 +36,49 @@ return response.status(200).json({
  
   async cadastrarRegime(request, response) {    
     try {
-      return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'cadastro de regime realizado com sucesso',
-        dados: null
-      });
+
+      // Dados do corpo da requisição
+const {
+    regi_nome,
+    regi_descricao,
+    regi_limite_faturamento_anual,
+    regi_tipo_empresa_permitida
+} = request.body;
+
+// Instrução SQL
+const sql = `
+    INSERT INTO REGIME
+        (regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida)
+    VALUES
+        (?, ?, ?, ?);
+`;
+
+// Valores
+const values = [
+    regi_nome,
+    regi_descricao,
+    regi_limite_faturamento_anual,
+    regi_tipo_empresa_permitida
+];
+
+// Execução da query
+const [result] = await db.query(sql, values);
+
+// Identificação do ID inserido
+const dados = {
+    id: result.insertId,
+    regi_nome,
+    regi_descricao,
+    regi_limite_faturamento_anual,
+    regi_tipo_empresa_permitida
+};
+
+return response.status(200).json({
+    SUCESSO: true,
+    mensagem: 'Regime cadastrado com sucesso',
+    dados
+});
+
     } catch (error) {
       return response.status(500).json({
         SUCESSO: false,

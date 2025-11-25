@@ -38,11 +38,47 @@ return response.status(200).json({
 
   async cadastrarAuditoria(request, response) {    
     try {
-      return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'cadastro de auditoria realizado com sucesso',
-        dados: null
-      });
+
+      // Dados do corpo da requisição
+const { usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_data_acao } = request.body;
+
+// Instrução SQL
+const sql = `
+    INSERT INTO AUDITORIA 
+        (usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_data_acao)
+    VALUES
+        (?, ?, ?, ?, ?);
+`;
+
+// Valores
+const values = [
+    usu_id,
+    aud_acao,
+    aud_tabela_afetada,
+    aud_registro_afetado,
+    aud_data_acao
+];
+
+// Execução da query
+const [result] = await db.query(sql, values);
+
+// Identificação do ID inserido
+const dados = {
+    id: result.insertId,
+    usu_id,
+    aud_acao,
+    aud_tabela_afetada,
+    aud_registro_afetado,
+    aud_data_acao
+};
+
+return response.status(200).json({
+    SUCESSO: true,
+    mensagem: 'Registro de auditoria criado com sucesso',
+    dados
+});
+
+     
     } catch (error) {
       return response.status(500).json({
         SUCESSO: false,

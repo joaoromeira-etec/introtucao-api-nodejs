@@ -39,7 +39,7 @@ CREATE TABLE REGIME (
     regi_id INT AUTO_INCREMENT PRIMARY KEY,
     regi_nome VARCHAR(50) NOT NULL,
     regi_descricao VARCHAR(150) NOT NULL,
-    regi_limite_faturamento_anal DECIMAL(12,2) NOT NULL,
+    regi_limite_faturamento_anual DECIMAL(12,2) NOT NULL,
     regi_tipo_empresa_permitida TINYINT NOT NULL
 );
 

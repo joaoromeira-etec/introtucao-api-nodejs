@@ -39,7 +39,7 @@ Campo Lógico	Campo Físico	Tipo de dados	Tamanho do campo	PK	FK	Observações
 Identificador.	regi_id	INT		x		Auto-Incremento
 Nome do Regime.	regi_nome	VARCHAR	50			
 Descrição do Regime.	regi_descricao	VARCHAR	150			
-Limite do Faturamento anual da empresa.	regi_limite_faturamento_anal	DECIMAL	12,2			
+Limite do Faturamento anual da empresa.	regi_limite_faturamento_anual	DECIMAL	12,2			
 Tipo de Empresa que pode adotar um Regime.	regi_tipo_empresa_permitida	TINYINT				1 – Simples Nacional; 2 – Lucro Presumido; 3 – Lucro Real.
 Atividade do Regime.	regi_ativo	BIT				0 – Inativo; 1- Ativo.
 Fonte: Autoria própria

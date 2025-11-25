@@ -2,7 +2,7 @@
 SELECT usu_id, usu_nome, usu_email, usu_cpf, usu_senha_hash, usu_telefone, usu_status, usu_alterar_senha FROM USUARIOS;
 SELECT emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo FROM EMPRESAS;
 SELECT emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes FROM USUARIO_EMPRESAS;
-SELECT regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anal, regi_tipo_empresa_permitida, regi_ativo FROM REGIME;
+SELECT regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida, regi_ativo FROM REGIME;
 SELECT regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes FROM REGIME_EMPRESA;
 SELECT tpd_id, tpd_descricao FROM TIPO_DOCUMENTOS;
 SELECT doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_status, doc_data_emissao, doc_valor FROM DOCUMENTOS;
