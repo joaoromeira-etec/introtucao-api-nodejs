@@ -33,19 +33,43 @@ module.exports = {
     },
     async cadastrarUsuarioEmpresa (request, response) {
         try {
+
+            const {nivel_acesso, data_vinculo, observacoes} = request.body;
+            const usu_emp_ativo = 1;
+
+            const sql = `
+            INSERT INTO USUARIO_EMPRESAS
+                (usu_emp_nivel_acesso, usu_emp_data_vinculo,
+                usu_emp_ativo, usu_emp_observacoes)
+            VALUES
+                (?, ?, ?, ?);
+                `;
+            
+            const values = [nivel_acesso, data_vinculo, usu_emp_ativo, observacoes];
+
+            const[result] = await db.query(sql, values);
+            
+            const dados = {
+                emp_id,
+                usu_id,
+                nivel_acesso,
+                data_vinculo,
+                observacoes
+            };
+        
             return response.status(200).json (
                 {
                     sucesso: true,
                     mensagem: 'Cadastro de usuário à empresa obtida com sucesso',
-                    dados: null
+                    dados: dados
                 }
             );
         } catch (error) {
             return response.status (500).json (
                 {
                     sucesso: false,
-                    mensagem: `Erro ao cadastrar usuário à empresa: ${error.message}`,
-                    dados: null
+                    mensagem: `Erro ao cadastrar usuário à empresa.`,
+                    dados: error.message
                 }
             );
         }
