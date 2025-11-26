@@ -52,13 +52,13 @@ INSERT INTO REGIME_EMPRESA
 
 
 -- Inserts para TIPO_DOCUMENTOS
-INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao) VALUES
-(1, 'Nota Fiscal'),
-(2, 'Recibo'),
-(3, 'Contrato'),
-(4, 'Boleto'),
-(5, 'Comprovante'),
-(6, 'Outros');
+INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao, tpd_ativo) VALUES
+(1, 'Nota Fiscal', 1),
+(2, 'Recibo', 1),
+(3, 'Contrato', 1),
+(4, 'Boleto', 1),
+(5, 'Comprovante', 1),
+(6, 'Outros', 1);
 
 -- Inserts para DOCUMENTOS
 INSERT INTO DOCUMENTOS (doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_data_emissao, doc_valor) VALUES

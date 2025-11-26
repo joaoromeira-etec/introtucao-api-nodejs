@@ -8,7 +8,8 @@ module.exports = {
                 SELECT
                     sup_id, usu_id_solicitante, usu_id_responsavel, sup_assunto, sup_descricao,
                     sup_status, sup_data_abertura, sup_data_suporte, sup_id_resp 
-                FROM SUPORTE;
+                FROM SUPORTE
+                WHERE sup_status = 1;
             `;
 
             const [suporte] =  await db.query(sql);
@@ -153,23 +154,38 @@ module.exports = {
         }
     },
 
-    async apagarSuporte (request, response) {
-        try{
-            return response.status(200).json(
-                {
-                    sucesso: true,
-                    mensagem: 'Exclusão de suportes realizado com sucesso',
-                    dados: null
-                }
-            );
-        }        catch (error) {
-            return response.status(500).json(
-                {
-                    sucesso: false,
-                    mensagem: `Erro ao remover os seguintes suportes: ${error.message}`,
-                    dados: null
-                }
-            );
+    async apagarSuporte(request, response) {
+    try {
+        const { id } = request.params;
+
+        // DELETE físico
+        const sql = `
+            DELETE FROM SUPORTE
+            WHERE sup_id = ?;
+        `;
+        const [result] = await db.query(sql, [id]);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Chamado de suporte com ID ${id} não encontrado.`,
+                dados: null
+            });
         }
-    },
+
+        return response.status(200).json({
+            sucesso: true,
+            mensagem: 'Chamado de suporte excluído com sucesso.',
+            dados: null
+        });
+
+    } catch (error) {
+        return response.status(500).json({
+            sucesso: false,
+            mensagem: `Erro ao remover o chamado de suporte: ${error.message}`,
+            dados: null
+        });
+    }
+},
+
 }
