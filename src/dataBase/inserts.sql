@@ -1,4 +1,6 @@
 -- Inserts para USUARIOS
+-- PS: usu_status: 0-Inativo, 1-Ativo
+-- PS: usu_alterar_senha: 0-Inativo, 1-Ativo
 INSERT INTO USUARIOS (usu_id, usu_nome, usu_email, usu_cpf, usu_senha_hash, usu_telefone, usu_status, usu_alterar_senha) VALUES
 (1, 'Ana Silva', 'ana@email.com', '12345678901', 'hash1', '11999990001', 1, 0),
 (2, 'Bruno Souza', 'bruno@email.com', '23456789012', 'hash2', '11999990002', 1, 1),
@@ -8,6 +10,7 @@ INSERT INTO USUARIOS (usu_id, usu_nome, usu_email, usu_cpf, usu_senha_hash, usu_
 (6, 'Felipe Costa', 'felipe@email.com', '67890123456', 'hash6', '11999990006', 0, 1);
 
 -- Inserts para EMPRESAS com todos os campos preenchidos
+-- emp_tipo: 0-ME, 1-MEI
 INSERT INTO EMPRESAS 
 (emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo) 
 VALUES
@@ -20,6 +23,7 @@ VALUES
 
 -- Inserts para USUARIO_EMPRESAS
 -- PS: usu_emp_nivel_acesso: 0-Visualizador, 1-Gerente (total), 2-Administrador (parcial)
+-- PS: usu_emp_status: 0-Inativo, 1-Ativo
 INSERT INTO USUARIO_EMPRESAS 
 (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes) 
 VALUES
@@ -31,7 +35,9 @@ VALUES
 (6, 6, 2, '2023-06-01', 1, 'TI');
 
 -- Inserts para REGIME
-INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida) VALUES
+-- PS: regi_tipo_emp_permitida: 0-Simples Nacional, 1-Lucro Presumido, 2-Lucro Real
+-- PS: regi_status: 0-Inativo, 1-Ativo
+INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_emp_permitida) VALUES
 (1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1),
 (2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2),
 (3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3),
@@ -40,9 +46,9 @@ INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_
 (6, 'Isento', 'Isento de regime', 0.00, 3);
 
 -- Inserts para REGIME_EMPRESA
-
+-- PS: regi_emp_status
 INSERT INTO REGIME_EMPRESA 
-(regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes) VALUES
+(regi_emp_id, regi_id, emp_id, regi_emp_data_inicio, regi_emp_data_fim, regi_emp_motivo_alteracao, regi_emp_status, regi_emp_observacoes) VALUES
 (1, 1, 1, '2023-01-01', NULL, NULL, 1, 'Ativo'),
 (2, 2, 2, '2023-02-01', NULL, NULL, 1, 'Ativo'),
 (3, 3, 3, '2023-03-01', NULL, NULL, 1, 'Ativo'),
