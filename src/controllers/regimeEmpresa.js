@@ -8,7 +8,8 @@ module.exports = {
                 SELECT
                     regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, 
                     regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes 
-                FROM REGIME_EMPRESA;
+                FROM REGIME_EMPRESA
+                WHERE regiemp_status = 1;
             `;
 
             const [regimeEmpresas] =  await db.query(sql);
@@ -151,23 +152,97 @@ module.exports = {
         }
     },
 
-    async apagarRegimeEmpresa (request, response) {
-        try{
-            return response.status(200).json(
-                {
-                    sucesso: true,
-                    mensagem: 'Exclusão de regimes das empresas realizado com sucesso',
-                    dados: null
-                }
-            );
-        }        catch (error) {
-            return response.status(500).json(
-                {
-                    sucesso: false,
-                    mensagem: `Erro ao remover os seguintes regimes das empresas: ${error.message}`,
-                    dados: null
-                }
-            );
+    async apagarRegimeEmpresa(request, response) {
+    try {
+        const { id } = request.params;
+
+        // DELETE físico
+        const sql = `
+            DELETE FROM REGIME_EMPRESA
+            WHERE regiemp_id = ?;
+        `;
+        const [result] = await db.query(sql, [id]);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Registro de regime_empresa com ID ${id} não encontrado.`,
+                dados: null
+            });
         }
-    },
+
+        return response.status(200).json({
+            sucesso: true,
+            mensagem: 'Registro de regime_empresa excluído com sucesso.',
+            dados: null
+        });
+
+    } catch (error) {
+        return response.status(500).json({
+            sucesso: false,
+            mensagem: `Erro ao remover o registro: ${error.message}`,
+            dados: null
+        });
+    }
+},
+
+    async ocultarRegimeEmpresa(request, response) {
+    try {
+        const { id } = request.params;
+
+        // 1. Verificar se o registro existe
+        const sqlBusca = `
+            SELECT regiemp_id, regiemp_status
+            FROM REGIME_EMPRESA
+            WHERE regiemp_id = ?;
+        `;
+        const [rows] = await db.query(sqlBusca, [id]);
+
+        if (rows.length === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Registro de regime empresa com ID ${id} não encontrado.`,
+                dados: null
+            });
+        }
+
+        // 2. Verificar se já está oculto
+        if (rows[0].regiemp_status === 0) {
+            return response.status(400).json({
+                sucesso: false,
+                mensagem: `Registro de regime empresa com ID ${id} já está inativo.`,
+                dados: null
+            });
+        }
+
+        // 3. Ocultar (soft delete)
+        const sqlOcultar = `
+            UPDATE REGIME_EMPRESA
+            SET regiemp_status = 0
+            WHERE regiemp_id = ?;
+        `;
+        const [result] = await db.query(sqlOcultar, [id]);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Não foi possível ocultar o registro de regime empresa com ID ${id}.`,
+                dados: null
+            });
+        }
+
+        return response.status(200).json({
+            sucesso: true,
+            mensagem: `Registro de regime empresa com ID ${id} ocultado com sucesso.`,
+            dados: null
+        });
+
+    } catch (error) {
+        return response.status(500).json({
+            sucesso: false,
+            mensagem: `Erro ao ocultar o registro: ${error.message}`,
+            dados: null
+        });
+    }
+},
 }

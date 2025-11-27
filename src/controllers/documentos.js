@@ -8,7 +8,8 @@ module.exports = {
             SELECT 
                 doc_id, usu_id, emp_id, tpd_id, 
                 doc_arquivo_nome, doc_data_emissao, doc_valor 
-            FROM DOCUMENTOS;
+            FROM DOCUMENTOS
+            WHERE doc_ativo = 1;
             `;
 
             const [documentos] =  await db.query(sql);
@@ -142,23 +143,93 @@ module.exports = {
         }
     },
 
-    async apagarDocumentos (request, response) {
-        try{
-            return response.status(200).json(
-                {
-                    sucesso: true,
-                    mensagem: 'Exclusão de documentos realizado com sucesso',
-                    dados: null
-                }
-            );
-        }        catch (error) {
-            return response.status(500).json(
-                {
-                    sucesso: false,
-                    mensagem: `Erro ao remover os seguintes documentos: ${error.message}`,
-                    dados: null
-                }
-            );
+    async apagarDocumentos(request, response) {
+    try {
+        const { id } = request.params;
+
+        const sql = `DELETE FROM DOCUMENTOS WHERE doc_id = ?;`;
+        const [result] = await db.query(sql, [id]);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Documento com ID ${id} não encontrado.`,
+                dados: null
+            });
         }
-    },
+
+        return response.status(200).json({
+            sucesso: true,
+            mensagem: `Exclusão do documento realizada com sucesso.`,
+            dados: null
+        });
+    } catch (error) {
+        return response.status(500).json({
+            sucesso: false,
+            mensagem: `Erro ao remover o documento: ${error.message}`,
+            dados: null
+        });
+    }
+},
+
+    async ocultarDocumentos(request, response) {
+    try {
+        const { id } = request.params;
+
+        // 1. Verificar se o documento existe
+        const sqlBusca = `
+            SELECT doc_id, doc_ativo
+            FROM DOCUMENTOS
+            WHERE doc_id = ?;
+        `;
+        const [rows] = await db.query(sqlBusca, [id]);
+
+        if (rows.length === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Documento com ID ${id} não encontrado.`,
+                dados: null
+            });
+        }
+
+        // 2. Verificar se já está oculto
+        if (rows[0].doc_ativo === 0) {
+            return response.status(400).json({
+                sucesso: false,
+                mensagem: `Documento com ID ${id} já está oculto.`,
+                dados: null
+            });
+        }
+
+        // 3. Ocultar (soft delete)
+        const sqlOcultar = `
+            UPDATE DOCUMENTOS
+            SET doc_ativo = 0
+            WHERE doc_id = ?;
+        `;
+        const [result] = await db.query(sqlOcultar, [id]);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Não foi possível ocultar o documento com ID ${id}.`,
+                dados: null
+            });
+        }
+
+        // 4. Sucesso
+        return response.status(200).json({
+            sucesso: true,
+            mensagem: `Documento com ID ${id} oculto com sucesso.`,
+            dados: null
+        });
+
+    } catch (error) {
+        return response.status(500).json({
+            sucesso: false,
+            mensagem: `Erro ao ocultar o documento: ${error.message}`,
+            dados: null
+        });
+    }
+},
 }

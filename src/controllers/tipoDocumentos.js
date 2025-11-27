@@ -7,7 +7,8 @@ module.exports = {
             const sql = `
             SELECT 
                 tpd_id, tpd_descricao 
-            FROM TIPO_DOCUMENTOS;
+            FROM TIPO_DOCUMENTOS
+            WHERE tpd_ativo = 1;
             `;
 
             const [tipoDocumentos] =  await db.query(sql);
@@ -87,7 +88,7 @@ module.exports = {
             //parametros da rota via URL
             const { id } = request.params;
 
-            //Instrução SQL
+            //Instrução SQL de ATUALIZAÇÃO.
             const sql = `
             UPDATE TIPO_DOCUMENTOS 
             SET tpd_descricao = ? 
@@ -133,6 +134,28 @@ module.exports = {
 
     async apagarTipoDocumentos (request, response) {
         try{
+            //parâmetros da rota via URL
+            const { id } = request.params;
+
+            //Instrução SQL de EXCLUSÃO
+            const sql = `
+            DELETE FROM TIPO_DOCUMENTOS  WHERE tpd_id = ?;
+            `;
+
+            //Valores em array.
+            const values = [id];
+
+            //Execução da query
+            const [result] =  await db.query(sql, values);
+
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Tipo de documento com ID ${id} não encontrado.`,
+                    dados: null
+                });
+            }
+            
             return response.status(200).json(
                 {
                     sucesso: true,
@@ -140,6 +163,74 @@ module.exports = {
                     dados: null
                 }
             );
+        }        catch (error) {
+            return response.status(500).json(
+                {
+                    sucesso: false,
+                    mensagem: `Erro ao remover os seguintes tipos de documentos: ${error.message}`,
+                    dados: null
+                }
+            );
+        }
+    },
+
+    
+    async ocultarTipoDocumentos (request, response) {
+        try{
+            const { id } = request.params;
+
+            //1. Verificar se o registro existe
+            const sqlBusca = `
+                SELECT tpd_id, tpd_ativo
+                FROM TIPO_DOCUMENTOS
+                WHERE tpd_id = ?;
+            `;
+
+            const [rows] = await db.query(sqlBusca, [id]);
+
+            if (rows.length === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Tipo de documento com ID ${id} não encontrado.`,
+                    dados: null
+                });
+            }
+
+            //2. Verificar se já está oculto
+            if (rows[0].tpd_ativo === 0) {
+                return response.status(400).json({
+                    sucesso: false,
+                    mensagem: `Tipo de documento com ID ${id} já está excluído.`,
+                    dados: null
+                });
+            }
+
+            //3. Ocultar (soft delete)
+            const sqlOcultar = `
+                UPDATE TIPO_DOCUMENTOS
+                SET tpd_ativo = 0
+                WHERE tpd_id = ?;
+            `;
+
+            const [result] = await db.query(sqlOcultar, [id]);
+
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false, 
+                    mensagem: `Não foi possível excluir o tipo de documento com ID ${id}.`,
+                    dados: null
+                });
+            }
+            
+            //4. Sucesso.
+            return response.status(200).json(
+                {
+                    sucesso: true,
+                    mensagem: `Tipo de documento com ID ${id} excluído com sucesso.`,
+                    dados: null
+                }
+            );
+
         }        catch (error) {
             return response.status(500).json(
                 {
