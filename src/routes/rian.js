@@ -9,15 +9,16 @@ const auditoriaController = require('../controllers/auditoria');
 // Rotas para Regime
 router.get('/regime', regimeController.listarRegime);
 router.post('/regime', regimeController.cadastrarRegime);   
-router.patch('/regime', regimeController.editarRegime);
+router.patch('/regime/:id', regimeController.editarRegime);
 router.delete('/regime', regimeController.apagarRegime);
 
 
 // Rotas para Prazos
 router.get('/prazos', prazosController.listarPrazos);
 router.post('/prazos', prazosController.cadastrarPrazos);
-router.patch('/prazos', prazosController.editarPrazos);
-router.delete('/prazos', prazosController.apagarPrazos);
+router.patch('/prazos/:id', prazosController.editarPrazos);
+router.delete('/prazos/:id', prazosController.apagarPrazos); //Não-Recomendado.
+router.delete('/prazos/del/:id', prazosController.ocultarPrazos); //Recomendado.
 
 
 // Rotas para Auditoria

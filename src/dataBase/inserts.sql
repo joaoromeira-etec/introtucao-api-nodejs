@@ -21,7 +21,7 @@ VALUES
 -- Inserts para USUARIO_EMPRESAS
 -- PS: usu_emp_nivel_acesso: 0-Visualizador, 1-Gerente (total), 2-Administrador (parcial)
 INSERT INTO USUARIO_EMPRESAS 
-(emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes) 
+(emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_status, usu_emp_observacoes) 
 VALUES
 (1, 1, 1, '2023-01-01', 1, 'Gerente'),
 (2, 2, 2, '2023-02-01', 1, 'Administrador'),
@@ -31,16 +31,15 @@ VALUES
 (6, 6, 2, '2023-06-01', 1, 'TI');
 
 -- Inserts para REGIME
-INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida) VALUES
-(1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1),
-(2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2),
-(3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3),
-(4, 'MEI', 'Microempreendedor Individual', 81000.00, 1),
-(5, 'Especial', 'Regime especial', 1000000.00, 2),
-(6, 'Isento', 'Isento de regime', 0.00, 3);
+INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida, regi_status) VALUES
+(1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1, 1),
+(2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2, 1),
+(3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3, 1),
+(4, 'MEI', 'Microempreendedor Individual', 81000.00, 1, 1),
+(5, 'Especial', 'Regime especial', 1000000.00, 2, 1),
+(6, 'Isento', 'Isento de regime', 0.00, 3, 1);
 
 -- Inserts para REGIME_EMPRESA
-
 INSERT INTO REGIME_EMPRESA 
 (regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes) VALUES
 (1, 1, 1, '2023-01-01', NULL, NULL, 1, 'Ativo'),
@@ -50,9 +49,8 @@ INSERT INTO REGIME_EMPRESA
 (5, 5, 5, '2023-05-01', '2023-12-31', 'Encerramento da empresa', 0, 'Encerrado'),
 (6, 6, 6, '2023-06-01', '2023-12-31', 'Revisão anual', 2, 'Suspenso');
 
-
 -- Inserts para TIPO_DOCUMENTOS
-INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao, tpd_ativo) VALUES
+INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao, tpd_status) VALUES
 (1, 'Nota Fiscal', 1),
 (2, 'Recibo', 1),
 (3, 'Contrato', 1),
@@ -61,13 +59,13 @@ INSERT INTO TIPO_DOCUMENTOS (tpd_id, tpd_descricao, tpd_ativo) VALUES
 (6, 'Outros', 1);
 
 -- Inserts para DOCUMENTOS
-INSERT INTO DOCUMENTOS (doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_data_emissao, doc_valor) VALUES
-(1, 1, 1, 1, 'nf1.pdf', '2023-01-09', 1000.00),
-(2, 2, 2, 2, 'recibo1.pdf', '2023-02-09', 500.00),
-(3, 3, 3, 3, 'contrato1.pdf', '2023-03-09', 2000.00),
-(4, 4, 4, 4, 'boleto1.pdf', '2023-04-09', 300.00),
-(5, 5, 5, 5, 'comprovante1.pdf', '2023-05-09', 150.00),
-(6, 6, 6, 6, 'outros1.pdf', '2023-06-09', 250.00);
+INSERT INTO DOCUMENTOS (doc_id, usu_id, emp_id, tpd_id, doc_arquivo_nome, doc_data_emissao, doc_valor, doc_status) VALUES
+(1, 1, 1, 1, 'nf1.pdf', '2023-01-09', 1000.00, 1),
+(2, 2, 2, 2, 'recibo1.pdf', '2023-02-09', 500.00, 1),
+(3, 3, 3, 3, 'contrato1.pdf', '2023-03-09', 2000.00, 1),
+(4, 4, 4, 4, 'boleto1.pdf', '2023-04-09', 300.00, 1),
+(5, 5, 5, 5, 'comprovante1.pdf', '2023-05-09', 150.00, 1),
+(6, 6, 6, 6, 'outros1.pdf', '2023-06-09', 250.00, 1);
 
 -- Inserts para PRAZOS
 INSERT INTO PRAZOS (praz_id, emp_id, praz_descricao, praz_data_vencimento, praz_status) VALUES
@@ -79,13 +77,13 @@ INSERT INTO PRAZOS (praz_id, emp_id, praz_descricao, praz_data_vencimento, praz_
 (6, 6, 'Revisão Contrato', '2023-08-12', 2);
 
 -- Inserts para AUDITORIA
-INSERT INTO AUDITORIA (aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_data_acao) VALUES
-(1, 1, 0, 'USUARIOS', 1, '2023-01-01'),
-(2, 2, 1, 'EMPRESAS', 2, '2023-02-01'),
-(3, 3, 2, 'DOCUMENTOS', 3, '2023-03-01'),
-(4, 4, 0, 'REGIME', 4, '2023-04-01'),
-(5, 5, 1, 'PRAZOS', 5, '2023-05-01'),
-(6, 6, 2, 'SUPORTE', 6, '2023-06-01');
+INSERT INTO AUDITORIA (aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_data_acao, aud_status) VALUES
+(1, 1, 0, 'USUARIOS', 1, '2023-01-01', 1),
+(2, 2, 1, 'EMPRESAS', 2, '2023-02-01', 1),
+(3, 3, 2, 'DOCUMENTOS', 3, '2023-03-01', 1),
+(4, 4, 0, 'REGIME', 4, '2023-04-01', 1),
+(5, 5, 1, 'PRAZOS', 5, '2023-05-01', 1),
+(6, 6, 2, 'SUPORTE', 6, '2023-06-01', 1);
 
 -- Inserts para SUPORTE
 -- sup_status: 0-Aberto, 1-Em Andamento, 2-Fechado

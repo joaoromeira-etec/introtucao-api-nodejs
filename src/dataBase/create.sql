@@ -1,5 +1,3 @@
--- Criação das tabelas do sistema de contabilidade
-
 CREATE TABLE USUARIOS (
     usu_id INT AUTO_INCREMENT PRIMARY KEY,
     usu_nome VARCHAR(32) NOT NULL,
@@ -28,7 +26,7 @@ CREATE TABLE USUARIO_EMPRESAS (
     usu_id INT,
     usu_emp_nivel_acesso TINYINT NOT NULL,
     usu_emp_data_vinculo DATE NOT NULL,
-    usu_emp_ativo BIT DEFAULT 1,
+    usu_emp_status BIT DEFAULT 1,
     usu_emp_observacoes VARCHAR(200) NULL,
     PRIMARY KEY (emp_id, usu_id),
     FOREIGN KEY (emp_id) REFERENCES EMPRESAS(emp_id),
@@ -37,10 +35,11 @@ CREATE TABLE USUARIO_EMPRESAS (
 
 CREATE TABLE REGIME (
     regi_id INT AUTO_INCREMENT PRIMARY KEY,
-    regi_nome VARCHAR(50) NOT NULL,
-    regi_descricao VARCHAR(150) NOT NULL,
-    regi_limite_faturamento_anual DECIMAL(12,2) NOT NULL,
-    regi_tipo_empresa_permitida TINYINT NOT NULL
+    regi_nome VARCHAR(100) NOT NULL,
+    regi_descricao VARCHAR(255),
+    regi_limite_faturamento_anual DECIMAL(15,2) NOT NULL,
+    regi_tipo_empresa_permitida INT NOT NULL,
+    regi_status TINYINT NOT NULL  
 );
 
 CREATE TABLE REGIME_EMPRESA (
@@ -59,7 +58,7 @@ CREATE TABLE REGIME_EMPRESA (
 CREATE TABLE TIPO_DOCUMENTOS (
     tpd_id INT AUTO_INCREMENT PRIMARY KEY,
     tpd_descricao VARCHAR(30) NOT NULL,
-    tpd_ativo BIT DEFAULT 1
+    tpd_status BIT DEFAULT 1
 );
 
 CREATE TABLE DOCUMENTOS (
@@ -70,7 +69,7 @@ CREATE TABLE DOCUMENTOS (
     doc_arquivo_nome VARCHAR(100) NOT NULL,
     doc_data_emissao DATE NOT NULL,
     doc_valor DECIMAL(12,2) NOT NULL,
-    doc_ativo BIT DEFAULT 1,
+    doc_status BIT DEFAULT 1,
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id),
     FOREIGN KEY (emp_id) REFERENCES EMPRESAS(emp_id),
     FOREIGN KEY (tpd_id) REFERENCES TIPO_DOCUMENTOS(tpd_id)
@@ -92,6 +91,7 @@ CREATE TABLE AUDITORIA (
     aud_tabela_afetada VARCHAR(30) NOT NULL,
     aud_registro_afetado INT NOT NULL,
     aud_data_acao DATE NOT NULL,
+    aud_status TINYINT NOT NULL,
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id)
 );
 

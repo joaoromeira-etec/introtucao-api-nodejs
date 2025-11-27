@@ -11,7 +11,8 @@ module.exports = {
         regi_descricao, 
         regi_limite_faturamento_anual, 
         regi_tipo_empresa_permitida 
-    FROM regime;
+    FROM regime
+    WHERE regi_status = 1; 
 `;
 
 const [regime] = await db.query(sql);
@@ -91,21 +92,63 @@ return response.status(200).json({
 
 
 
-  async editarRegime(request, response) {    
+ async editarRegime(request, response) {
     try {
-      return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'Atualização de Regime feita com sucesso',
-        dados: null
-      });
+
+        // Parâmetros do corpo da requisição
+        const { regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida } = request.body;
+
+        // Parâmetro da rota via URL
+        const { id } = request.params;
+
+        // Instrução SQL
+        const sql = `
+            UPDATE REGIME SET
+                regi_nome = ?, 
+                regi_descricao = ?, 
+                regi_limite_faturamento_anual = ?, 
+                regi_tipo_empresa_permitida = ?
+            WHERE
+                regi_id = ?;
+        `;
+
+        // Valores em array
+        const values = [regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida, id];
+
+        // Execução da query
+        const [result] = await db.query(sql, values);
+
+        if (result.affectedRows === 0) {
+            return response.status(404).json({
+                sucesso: false,
+                mensagem: `Regime com ID ${id} não encontrado para atualização`,
+                dados: null
+            });
+        }
+
+        const dados = {
+            id,
+            regi_nome,
+            regi_descricao,
+            regi_limite_faturamento_anual,
+            regi_tipo_empresa_permitida
+        };
+
+        return response.status(200).json({
+            sucesso: true,
+            mensagem: `Atualização do regime ${id} realizada com sucesso`,
+            dados
+        });
+
     } catch (error) {
-      return response.status(500).json({
-        SUCESSO: false,
-        mensagem: `Erro ao atualizar regimes: ${error.message}`,
-        dados: null
-      });
+        return response.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro na requisição.',
+            dados: error.message
+        });
     }
-  },
+},
+
 
 
 
