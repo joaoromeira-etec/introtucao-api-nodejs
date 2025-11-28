@@ -7,7 +7,7 @@ INSERT INTO USUARIOS (usu_id, usu_nome, usu_email, usu_cpf, usu_senha_hash, usu_
 (5, 'Eduarda Melo', 'eduarda@email.com', '56789012345', 'hash5', '11999990005', 1, 0),
 (6, 'Felipe Costa', 'felipe@email.com', '67890123456', 'hash6', '11999990006', 0, 1);
 
--- Inserts para EMPRESAS com todos os campos preenchidos
+-- Inserts para EMPRESAS
 INSERT INTO EMPRESAS 
 (emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo) 
 VALUES
@@ -19,7 +19,6 @@ VALUES
 (6, 'Silva Digital', 'Silva Digital ME', '67890123000106', 'Rua F, 600', 'São Bernardo do Campo', '(11) 3333-6006', 'info@silvadigital.com', 0);
 
 -- Inserts para USUARIO_EMPRESAS
--- PS: usu_emp_nivel_acesso: 0-Visualizador, 1-Gerente (total), 2-Administrador (parcial)
 INSERT INTO USUARIO_EMPRESAS 
 (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo, usu_emp_status, usu_emp_observacoes) 
 VALUES
@@ -31,7 +30,7 @@ VALUES
 (6, 6, 2, '2023-06-01', 1, 'TI');
 
 -- Inserts para REGIME
-INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_empresa_permitida, regi_status) VALUES
+INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_emp_permitida, regi_status) VALUES
 (1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1, 1),
 (2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2, 1),
 (3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3, 1),
@@ -41,7 +40,7 @@ INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_
 
 -- Inserts para REGIME_EMPRESA
 INSERT INTO REGIME_EMPRESA 
-(regiemp_id, regi_id, emp_id, regiemp_data_inicio, regiemp_data_fim, regiemp_motivo_alteracao, regiemp_status, regiemp_observacoes) VALUES
+(regi_emp_id, regi_id, emp_id, regi_emp_data_inicio, regi_emp_data_fim, regi_emp_motivo_alteracao, regi_emp_status, regi_emp_observacoes) VALUES
 (1, 1, 1, '2023-01-01', NULL, NULL, 1, 'Ativo'),
 (2, 2, 2, '2023-02-01', NULL, NULL, 1, 'Ativo'),
 (3, 3, 3, '2023-03-01', NULL, NULL, 1, 'Ativo'),
@@ -86,7 +85,6 @@ INSERT INTO AUDITORIA (aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registr
 (6, 6, 2, 'SUPORTE', 6, '2023-06-01', 1);
 
 -- Inserts para SUPORTE
--- sup_status: 0-Aberto, 1-Em Andamento, 2-Fechado
 INSERT INTO SUPORTE (sup_id, usu_id_solicitante, usu_id_responsavel, sup_assunto, sup_descricao, sup_status, sup_data_abertura, sup_data_suporte, sup_id_resp) VALUES
 (1, 1, 2, 'Erro de acesso', 'Não consigo acessar o sistema', 0, '2023-01-01 09:00:00', '2023-01-01 10:00:00', 3),
 (2, 2, 3, 'Dúvida fiscal', 'Como emitir nota?', 1, '2023-02-01 09:00:00', '2023-02-01 10:00:00', 4),

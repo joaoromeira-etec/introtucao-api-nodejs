@@ -149,23 +149,87 @@ return response.status(200).json({
     }
 },
 
-
-
-
-  async apagarRegime(request, response) {    
+  async apagarRegime(request, response) {
     try {
+      const { id } = request.params;
+
+      const sql = `DELETE FROM REGIME WHERE regi_id = ?;`;
+      const [result] = await db.query(sql, [id]);
+
+      if (result.affectedRows === 0) {
+        return response.status(404).json({
+          sucesso: false,
+          mensagem: `Regime com ID ${id} não encontrado para exclusão.`,
+          dados: null
+        });
+      }
+
       return response.status(200).json({
-        SUCESSO: true,
-        mensagem: 'Exclusão de regime realizada com sucesso',
+        sucesso: true,
+        mensagem: `Regime com ID ${id} excluído com sucesso.`,
         dados: null
       });
+
     } catch (error) {
       return response.status(500).json({
-        SUCESSO: false,
+        sucesso: false,
         mensagem: `Erro ao excluir regime: ${error.message}`,
         dados: null
       });
     }
   },
+
+  // Exclusão lógica (soft delete)
+  async ocultarRegime(request, response) {
+    try {
+      const { id } = request.params;
+
+      // Verificar se existe
+      const sqlBusca = `SELECT regi_id, regi_status FROM REGIME WHERE regi_id = ?;`;
+      const [rows] = await db.query(sqlBusca, [id]);
+
+      if (rows.length === 0) {
+        return response.status(404).json({
+          sucesso: false,
+          mensagem: `Regime com ID ${id} não encontrado.`,
+          dados: null
+        });
+      }
+
+      if (rows[0].regi_status === 0) {
+        return response.status(400).json({
+          sucesso: false,
+          mensagem: `Regime com ID ${id} já está inativo.`,
+          dados: null
+        });
+      }
+
+      // Atualizar status para inativo
+      const sqlOcultar = `UPDATE REGIME SET regi_status = 0 WHERE regi_id = ?;`;
+      const [result] = await db.query(sqlOcultar, [id]);
+
+      if (result.affectedRows === 0) {
+        return response.status(404).json({
+          sucesso: false,
+          mensagem: `Não foi possível inativar o regime com ID ${id}.`,
+          dados: null
+        });
+      }
+
+      return response.status(200).json({
+        sucesso: true,
+        mensagem: `Regime com ID ${id} inativado com sucesso.`,
+        dados: null
+      });
+
+    } catch (error) {
+      return response.status(500).json({
+        sucesso: false,
+        mensagem: `Erro ao inativar regime: ${error.message}`,
+        dados: null
+      });
+    }
+  }
 };
+
 

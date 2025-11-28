@@ -11,16 +11,16 @@ const RegimeEmpresaController = require('../controllers/regimeEmpresa');
 router.get('/tipoDocumentos', TipoDocumentosController.listarTipoDocumentos);
 router.post('/tipoDocumentos', TipoDocumentosController.cadastrarTipoDocumentos);   
 router.patch('/tipoDocumentos/:id', TipoDocumentosController.editarTipoDocumentos); // Params.
-router.delete('/tipoDocumentos/:id', TipoDocumentosController.apagarTipoDocumentos); // Params.
-router.delete('/tipoDocumentos/del/:id', TipoDocumentosController.ocultarTipoDocumentos); // Params.
+router.delete('/tipoDocumentos/:id', TipoDocumentosController.apagarTipoDocumentos); // Params, Não-Recomendado.
+router.delete('/tipoDocumentos/del/:id', TipoDocumentosController.ocultarTipoDocumentos); // Params, Recomendado.
 
 
 // Rotas para Documentos
 router.get('/documentos', DocumentosController.listarDocumentos);
 router.post('/documentos', DocumentosController.cadastrarDocumentos);
 router.patch('/documentos/:id', DocumentosController.editarDocumentos);
-router.delete('/documentos/:id', DocumentosController.apagarDocumentos);
-router.delete('/documentos/del/:id', DocumentosController.ocultarDocumentos);
+router.delete('/documentos/:id', DocumentosController.apagarDocumentos); //Não-Recomendado.
+router.delete('/documentos/del/:id', DocumentosController.ocultarDocumentos); //Recomendado.
 
 
 // Rotas para Suporte
