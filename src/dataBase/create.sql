@@ -7,23 +7,25 @@ CREATE TABLE USUARIOS (
     usu_email VARCHAR(60) NOT NULL,
     usu_cpf VARCHAR(11) NOT NULL,
     usu_senha_hash VARCHAR(255) NOT NULL,
-    usu_telefone INT NOT NULL,
+    usu_telefone VARCHAR(15) NOT NULL,
     usu_status BIT NOT NULL, -- 0-Inativo; 1-Ativo
     usu_alterar_senha BIT NOT NULL -- 0-Não Alterado; 1-Alterado
 );
 
 -- Tabela EMPRESAS
 -- emp_tipo: 0-ME; 1-MEI.
+-- emp_status: 0-Inativo; 1-Ativa.
 CREATE TABLE EMPRESAS (
     emp_id INT PRIMARY KEY AUTO_INCREMENT,
     emp_nome_fantasia VARCHAR(100) NOT NULL,
     emp_razao_social VARCHAR(150) NOT NULL,
-    emp_cnpj INT UNIQUE NOT NULL,
+    emp_cnpj VARCHAR(14) UNIQUE NOT NULL,
     emp_endereco VARCHAR(255) NOT NULL,
     emp_municipio VARCHAR(100) NOT NULL,
-    emp_telefone INT NOT NULL,
+    emp_telefone VARCHAR(15) NOT NULL,
     emp_email VARCHAR(100) NOT NULL,
-    emp_tipo BIT NOT NULL -- 0-ME; 1-MEI
+    emp_tipo BIT NOT NULL, -- 0-ME; 1-MEI
+    emp_status BIT NOT NULL -- 0-Inativo; 1-Ativa
 );
 
 -- Tabela USUARIO_EMPRESAS
@@ -68,6 +70,14 @@ CREATE TABLE REGIME_EMPRESA (
     FOREIGN KEY (emp_id) REFERENCES EMPRESAS(emp_id)
 );
 
+-- Tabela TIPO_DOCUMENTOS
+-- tpd_status: 0-Inativo; 1-Ativo.
+CREATE TABLE TIPO_DOCUMENTOS (
+    tpd_id INT PRIMARY KEY AUTO_INCREMENT,
+    tpd_descricao VARCHAR(30) NOT NULL,
+    tpd_status BIT NOT NULL -- 0-Inativo; 1-Ativo
+);
+
 -- Tabela DOCUMENTOS
 -- doc_status: 0-Inativo; 1-Ativo.
 CREATE TABLE DOCUMENTOS (
@@ -82,14 +92,6 @@ CREATE TABLE DOCUMENTOS (
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id),
     FOREIGN KEY (emp_id) REFERENCES EMPRESAS(emp_id),
     FOREIGN KEY (tpd_id) REFERENCES TIPO_DOCUMENTOS(tpd_id)
-);
-
--- Tabela TIPO_DOCUMENTOS
--- tpd_status: 0-Inativo; 1-Ativo.
-CREATE TABLE TIPO_DOCUMENTOS (
-    tpd_id INT PRIMARY KEY AUTO_INCREMENT,
-    tpd_descricao VARCHAR(30) NOT NULL,
-    tpd_status BIT NOT NULL -- 0-Inativo; 1-Ativo
 );
 
 -- Tabela PRAZOS
@@ -111,7 +113,7 @@ CREATE TABLE AUDITORIA (
     aud_acao TINYINT NOT NULL, -- 0-Inserção; 1-Edição; 2-Exclusão
     aud_tabela_afetada VARCHAR(30) NOT NULL,
     aud_registro_afetado INT NOT NULL,
-    aud_data_acao DATE NOT NULL,
+    aud_data_acao DATETIME NOT NULL,
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id)
 );
 

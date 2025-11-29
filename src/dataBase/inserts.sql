@@ -7,16 +7,16 @@ INSERT INTO USUARIOS (usu_id, usu_nome, usu_email, usu_cpf, usu_senha_hash, usu_
 (5, 'Eduarda Melo', 'eduarda@email.com', '56789012345', 'hash5', '11999990005', 1, 0),
 (6, 'Felipe Costa', 'felipe@email.com', '67890123456', 'hash6', '11999990006', 0, 1);
 
--- Inserts para EMPRESAS
+-- Inserts para EMPRESAS (incluído emp_status)
 INSERT INTO EMPRESAS 
-(emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo) 
+(emp_id, emp_nome_fantasia, emp_razao_social, emp_cnpj, emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo, emp_status) 
 VALUES
-(1, 'Tech Solutions', 'Tech Solutions LTDA', '12345678000101', 'Rua A, 100', 'São Paulo', '(11) 3333-1001', 'contato@techsolutions.com', 1),
-(2, 'Comercial Dias', 'Comercial Dias ME', '23456789000102', 'Rua B, 200', 'Campinas', '(11) 3333-2002', 'vendas@comercialdias.com', 0),
-(3, 'Melo Serviços', 'Melo Serviços EIRELI', '34567890000103', 'Rua C, 300', 'Santos', '(11) 3333-3003', 'suporte@meloservicos.com', 1),
-(4, 'Lima Store', 'Lima Store MEI', '45678901000104', 'Rua D, 400', 'Sorocaba', '(11) 3333-4004', 'contato@limastore.com', 1),
-(5, 'Costa Market', 'Costa Market LTDA', '56789012000105', 'Rua E, 500', 'Ribeirão Preto', '(11) 3333-5005', 'atendimento@costamarket.com', 1),
-(6, 'Silva Digital', 'Silva Digital ME', '67890123000106', 'Rua F, 600', 'São Bernardo do Campo', '(11) 3333-6006', 'info@silvadigital.com', 0);
+(1, 'Tech Solutions', 'Tech Solutions LTDA', '12345678000101', 'Rua A, 100', 'São Paulo', '(11) 3333-1001', 'contato@techsolutions.com', 1, 1),
+(2, 'Comercial Dias', 'Comercial Dias ME', '23456789000102', 'Rua B, 200', 'Campinas', '(11) 3333-2002', 'vendas@comercialdias.com', 0, 1),
+(3, 'Melo Serviços', 'Melo Serviços EIRELI', '34567890000103', 'Rua C, 300', 'Santos', '(11) 3333-3003', 'suporte@meloservicos.com', 1, 1),
+(4, 'Lima Store', 'Lima Store MEI', '45678901000104', 'Rua D, 400', 'Sorocaba', '(11) 3333-4004', 'contato@limastore.com', 1, 1),
+(5, 'Costa Market', 'Costa Market LTDA', '56789012000105', 'Rua E, 500', 'Ribeirão Preto', '(11) 3333-5005', 'atendimento@costamarket.com', 1, 1),
+(6, 'Silva Digital', 'Silva Digital ME', '67890123000106', 'Rua F, 600', 'São Bernardo do Campo', '(11) 3333-6006', 'info@silvadigital.com', 0, 0);
 
 -- Inserts para USUARIO_EMPRESAS
 INSERT INTO USUARIO_EMPRESAS 
@@ -31,12 +31,12 @@ VALUES
 
 -- Inserts para REGIME
 INSERT INTO REGIME (regi_id, regi_nome, regi_descricao, regi_limite_faturamento_anual, regi_tipo_emp_permitida, regi_status) VALUES
-(1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 1, 1),
-(2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 2, 1),
-(3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 3, 1),
-(4, 'MEI', 'Microempreendedor Individual', 81000.00, 1, 1),
-(5, 'Especial', 'Regime especial', 1000000.00, 2, 1),
-(6, 'Isento', 'Isento de regime', 0.00, 3, 1);
+(1, 'Simples Nacional', 'Regime para pequenas empresas', 4800000.00, 0, 1),
+(2, 'Lucro Presumido', 'Regime para médias empresas', 78000000.00, 1, 1),
+(3, 'Lucro Real', 'Regime para grandes empresas', 999999999.99, 2, 1),
+(4, 'MEI', 'Microempreendedor Individual', 81000.00, 0, 1),
+(5, 'Especial', 'Regime especial', 1000000.00, 1, 1),
+(6, 'Isento', 'Isento de regime', 0.00, 2, 1);
 
 -- Inserts para REGIME_EMPRESA
 INSERT INTO REGIME_EMPRESA 
@@ -75,20 +75,11 @@ INSERT INTO PRAZOS (praz_id, emp_id, praz_descricao, praz_data_vencimento, praz_
 (5, 5, 'Envio NF-e', '2023-07-05', 1),
 (6, 6, 'Revisão Contrato', '2023-08-12', 2);
 
--- Inserts para AUDITORIA
-INSERT INTO AUDITORIA (aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_data_acao, aud_status) VALUES
-(1, 1, 0, 'USUARIOS', 1, '2023-01-01', 1),
-(2, 2, 1, 'EMPRESAS', 2, '2023-02-01', 1),
-(3, 3, 2, 'DOCUMENTOS', 3, '2023-03-01', 1),
-(4, 4, 0, 'REGIME', 4, '2023-04-01', 1),
-(5, 5, 1, 'PRAZOS', 5, '2023-05-01', 1),
-(6, 6, 2, 'SUPORTE', 6, '2023-06-01', 1);
-
--- Inserts para SUPORTE
-INSERT INTO SUPORTE (sup_id, usu_id_solicitante, usu_id_responsavel, sup_assunto, sup_descricao, sup_status, sup_data_abertura, sup_data_suporte, sup_id_resp) VALUES
-(1, 1, 2, 'Erro de acesso', 'Não consigo acessar o sistema', 0, '2023-01-01 09:00:00', '2023-01-01 10:00:00', 3),
-(2, 2, 3, 'Dúvida fiscal', 'Como emitir nota?', 1, '2023-02-01 09:00:00', '2023-02-01 10:00:00', 4),
-(3, 3, 4, 'Problema de senha', 'Esqueci minha senha', 2, '2023-03-01 09:00:00', '2023-03-01 10:00:00', 5),
-(4, 4, 5, 'Solicitação de relatório', 'Preciso de relatório anual', 0, '2023-04-01 09:00:00', '2023-04-01 10:00:00', 6),
-(5, 5, 6, 'Erro de cadastro', 'Não consigo cadastrar empresa', 1, '2023-05-01 09:00:00', '2023-05-01 10:00:00', 1),
-(6, 6, 1, 'Dúvida sobre impostos', 'Quais impostos devo pagar?', 2, '2023-06-01 09:00:00', '2023-06-01 10:00:00', 2);
+-- Inserts para AUDITORIA (removido aud_status e usando DATETIME)
+INSERT INTO AUDITORIA (aud_id, usu_id, aud_acao, aud_tabela_afetada, aud_registro_afetado, aud_data_acao) VALUES
+(1, 1, 0, 'USUARIOS', 1, '2023-01-01 00:00:00'),
+(2, 2, 1, 'EMPRESAS', 2, '2023-02-01 00:00:00'),
+(3, 3, 2, 'DOCUMENTOS', 3, '2023-03-01 00:00:00'),
+(4, 4, 0, 'REGIME', 4, '2023-04-01 00:00:00'),
+(5, 5, 1, 'PRAZOS', 5, '2023-05-01 00:00:00'),
+(6, 6, 2, 'SUPORTE', 6, '2023-06-01 00:00:00');
