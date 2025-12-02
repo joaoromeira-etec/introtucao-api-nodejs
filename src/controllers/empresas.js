@@ -35,16 +35,17 @@ module.exports = {
         try {
 
             const {nome, razao_social, cnpj, endereco, municipio, telefone, email, tipo} = request.body;
-
+            const emp_status = 1;
+    
             const sql = `
             INSERT INTO empresas
                 (emp_nome_fantasia, emp_razao_social, emp_cnpj,
-                emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo)
+                emp_endereco, emp_municipio, emp_telefone, emp_email, emp_tipo, emp_status)
             VALUES 
-                (?, ?, ?, ?, ?, ?, ?, ?);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?);
                 `;
             
-            const values = [nome, razao_social, cnpj, endereco, municipio, telefone, email, tipo];
+            const values = [nome, razao_social, cnpj, endereco, municipio, telefone, email, tipo, emp_status];
             
             const [result] = await db.query(sql, values);
 

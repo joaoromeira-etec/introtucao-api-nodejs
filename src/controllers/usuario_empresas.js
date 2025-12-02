@@ -34,18 +34,18 @@ module.exports = {
     async cadastrarUsuarioEmpresa (request, response) {
         try {
 
-            const {nivel_acesso, data_vinculo, observacoes} = request.body;
-            const usu_emp_ativo = 1;
+            const {emp_id, usu_id, nivel_acesso, data_vinculo, observacoes} = request.body;
+            const usu_emp_status = 1;
 
             const sql = `
             INSERT INTO USUARIO_EMPRESAS
-                (usu_emp_nivel_acesso, usu_emp_data_vinculo,
-                usu_emp_ativo, usu_emp_observacoes)
+                (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo,
+                usu_emp_status, usu_emp_observacoes)
             VALUES
-                (?, ?, ?, ?);
+                (?, ?, ?, ?, ?, ?);
                 `;
             
-            const values = [nivel_acesso, data_vinculo, usu_emp_ativo, observacoes];
+            const values = [emp_id, usu_id, nivel_acesso, data_vinculo, usu_emp_status, observacoes];
 
             const[result] = await db.query(sql, values);
             

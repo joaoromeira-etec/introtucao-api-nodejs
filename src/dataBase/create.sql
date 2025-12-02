@@ -1,6 +1,3 @@
--- Tabela USUARIOS
--- usu_status: 0-Inativo; 1-Ativo.
--- usu_alterar_senha: 0-Não Alterado; 1-Alterado.
 CREATE TABLE USUARIOS (
     usu_id INT PRIMARY KEY AUTO_INCREMENT,
     usu_nome VARCHAR(32) NOT NULL,
@@ -12,9 +9,6 @@ CREATE TABLE USUARIOS (
     usu_alterar_senha BIT NOT NULL -- 0-Não Alterado; 1-Alterado
 );
 
--- Tabela EMPRESAS
--- emp_tipo: 0-ME; 1-MEI.
--- emp_status: 0-Inativo; 1-Ativa.
 CREATE TABLE EMPRESAS (
     emp_id INT PRIMARY KEY AUTO_INCREMENT,
     emp_nome_fantasia VARCHAR(100) NOT NULL,
@@ -28,9 +22,6 @@ CREATE TABLE EMPRESAS (
     emp_status BIT NOT NULL -- 0-Inativo; 1-Ativa
 );
 
--- Tabela USUARIO_EMPRESAS
--- usu_emp_nivel_acesso: 0-Visualizador; 1-Gerente; 2-Administrador.
--- usu_emp_status: 0-Inativo; 1-Ativo.
 CREATE TABLE USUARIO_EMPRESAS (
     emp_id INT,
     usu_id INT,
@@ -43,9 +34,6 @@ CREATE TABLE USUARIO_EMPRESAS (
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id)
 );
 
--- Tabela REGIME
--- regi_tipo_emp_permitida: 0-Simples Nacional; 1-Lucro Presumido; 2-Lucro Real.
--- regi_status: 0-Inativo; 1-Ativo.
 CREATE TABLE REGIME (
     regi_id INT PRIMARY KEY AUTO_INCREMENT,
     regi_nome VARCHAR(50) NOT NULL,
@@ -55,8 +43,6 @@ CREATE TABLE REGIME (
     regi_status BIT NOT NULL -- 0-Inativo; 1-Ativo
 );
 
--- Tabela REGIME_EMPRESA
--- regi_emp_status: 0-Encerrado; 1-Ativo; 2-Suspenso.
 CREATE TABLE REGIME_EMPRESA (
     regi_emp_id INT PRIMARY KEY AUTO_INCREMENT,
     regi_id INT,
@@ -70,16 +56,12 @@ CREATE TABLE REGIME_EMPRESA (
     FOREIGN KEY (emp_id) REFERENCES EMPRESAS(emp_id)
 );
 
--- Tabela TIPO_DOCUMENTOS
--- tpd_status: 0-Inativo; 1-Ativo.
 CREATE TABLE TIPO_DOCUMENTOS (
     tpd_id INT PRIMARY KEY AUTO_INCREMENT,
     tpd_descricao VARCHAR(30) NOT NULL,
     tpd_status BIT NOT NULL -- 0-Inativo; 1-Ativo
 );
 
--- Tabela DOCUMENTOS
--- doc_status: 0-Inativo; 1-Ativo.
 CREATE TABLE DOCUMENTOS (
     doc_id INT PRIMARY KEY AUTO_INCREMENT,
     usu_id INT,
@@ -94,8 +76,6 @@ CREATE TABLE DOCUMENTOS (
     FOREIGN KEY (tpd_id) REFERENCES TIPO_DOCUMENTOS(tpd_id)
 );
 
--- Tabela PRAZOS
--- praz_status: 0-Pendente; 1-Concluído; 2-Vencido.
 CREATE TABLE PRAZOS (
     praz_id INT PRIMARY KEY AUTO_INCREMENT,
     emp_id INT,
@@ -105,8 +85,6 @@ CREATE TABLE PRAZOS (
     FOREIGN KEY (emp_id) REFERENCES EMPRESAS(emp_id)
 );
 
--- Tabela AUDITORIA
--- aud_acao: 0-Inserção; 1-Edição; 2-Exclusão.
 CREATE TABLE AUDITORIA (
     aud_id INT PRIMARY KEY AUTO_INCREMENT,
     usu_id INT,
@@ -117,8 +95,6 @@ CREATE TABLE AUDITORIA (
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id)
 );
 
--- Tabela SUPORTE
--- sup_status: 0-Aberto; 1-Em andamento; 2-Concluído.
 CREATE TABLE SUPORTE (
     sup_id SMALLINT PRIMARY KEY AUTO_INCREMENT,
     usu_id_solicitante INT,
