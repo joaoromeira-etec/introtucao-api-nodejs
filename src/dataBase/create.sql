@@ -23,13 +23,13 @@ CREATE TABLE EMPRESAS (
 );
 
 CREATE TABLE USUARIO_EMPRESAS (
+    usu_emp_id INT PRIMARY KEY AUTO_INCREMENT,
     emp_id INT,
     usu_id INT,
     usu_emp_nivel_acesso TINYINT NOT NULL, -- 0-Visualizador; 1-Gerente; 2-Administrador
     usu_emp_data_vinculo DATE NOT NULL,
     usu_emp_status BIT NOT NULL, -- 0-Inativo; 1-Ativo
     usu_emp_observacoes VARCHAR(200),
-    PRIMARY KEY (emp_id, usu_id),
     FOREIGN KEY (emp_id) REFERENCES EMPRESAS(emp_id),
     FOREIGN KEY (usu_id) REFERENCES USUARIOS(usu_id)
 );

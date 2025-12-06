@@ -44,7 +44,6 @@ module.exports = {
             VALUES 
                 (?, ?, ?, ?, ?, ?, ?, ?, ?);
                 `;
-            
             const values = [nome, razao_social, cnpj, endereco, municipio, telefone, email, tipo, emp_status];
             
             const [result] = await db.query(sql, values);
@@ -80,19 +79,58 @@ module.exports = {
     },
     async editarEmpresas (request, response) {
         try {
+            // Parâmetros recebidos pelo corpo da requisição
+            const {nome, razao_social, cnpj, endereco, municipio, telefone, email, tipo, status} = request.body;
+            //Parâmetro recebido pela URL via params ex: /usuario/1
+            const {id} = request.params;
+
+            
+            //instruções SQL
+            const sql = `
+                UPDATE empresas SET 
+                emp_nome_fantasia = ?, emp_razao_social = ?,
+                emp_endereco = ?, emp_municipio = ?, emp_telefone = ?,
+                emp_email = ?, emp_tipo = ?, emp_status = ?
+                WHERE
+                    emp_id = ?;
+                `;
+                //Preparo do array com dados que serão atualizados
+                const values = [nome, razao_social, endereco, municipio, telefone, email, tipo, status, id];
+                //execução e obtenção de confirmação da atualização realizada
+                const [result] = await db.query(sql, values);
+
+                if (result.affectedRows === 0) {
+                    return response.status(404).json ({
+                        sucesso: false,
+                        mensagem: `Empresa ${id} não encontrada`,
+                        dados: null
+                    });
+                }
+                const dados = {
+                    id,
+                    nome,
+                    razao_social,
+                    cnpj,
+                    endereco,
+                    municipio,
+                    telefone,
+                    email,
+                    tipo,
+                    status
+                };
             return response.status(200).json (
                 {
                     sucesso: true,
-                    mensagem: 'Atualização de empresa obtida com sucesso',
-                    dados: null
+                    mensagem: `Empresa ${id} atualizada com sucesso`,
+                    dados
                 }
             );
         } catch (error) {
             return response.status (500).json (
                 {
                     sucesso: false,
-                    mensagem: `Erro ao atualizar empresa: ${error.message}`,
-                    dados: null
+                    mensagem: `Erro na requisição`,
+                    dados: error.message
                 }
             );
         }

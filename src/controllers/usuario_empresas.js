@@ -6,8 +6,8 @@ module.exports = {
 
             const sql = 
             `SELECT
-                emp_id, usu_id, usu_emp_nivel_acesso,
-                usu_emp_data_vinculo, usu_emp_ativo, usu_emp_observacoes
+                usu_emp_id, emp_id, usu_id, usu_emp_nivel_acesso,
+                usu_emp_data_vinculo, usu_emp_status, usu_emp_observacoes
             FROM USUARIO_EMPRESAS;
             `;
 
@@ -34,22 +34,23 @@ module.exports = {
     async cadastrarUsuarioEmpresa (request, response) {
         try {
 
-            const {emp_id, usu_id, nivel_acesso, data_vinculo, observacoes} = request.body;
+            const {usu_emp_id, emp_id, usu_id, nivel_acesso, data_vinculo, observacoes} = request.body;
             const usu_emp_status = 1;
 
             const sql = `
             INSERT INTO USUARIO_EMPRESAS
-                (emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo,
+                (usu_emp_id, emp_id, usu_id, usu_emp_nivel_acesso, usu_emp_data_vinculo,
                 usu_emp_status, usu_emp_observacoes)
             VALUES
                 (?, ?, ?, ?, ?, ?);
                 `;
             
-            const values = [emp_id, usu_id, nivel_acesso, data_vinculo, usu_emp_status, observacoes];
+            const values = [usu_emp_id, emp_id, usu_id, nivel_acesso, data_vinculo, usu_emp_status, observacoes];
 
             const[result] = await db.query(sql, values);
             
             const dados = {
+                usu_emp_id,
                 emp_id,
                 usu_id,
                 nivel_acesso,
@@ -76,19 +77,53 @@ module.exports = {
     },
     async editarUsuarioEmpresa (request, response) {
         try {
+            // Parâmetros recebidos pelo corpo da requisição
+            const { nivel_acesso, data_vinculo, usu_emp_status, observacoes, emp_id, usu_id } = request.body;
+            //Parâmetro recebido pela URL via params ex: /usuario/1
+            const {id} = request.params;
+            //instruções SQL
+            const sql = `
+                UPDATE usuario_empresas SET 
+                usu_emp_nivel_acesso = ?,
+                usu_emp_data_vinculo = ?, usu_emp_status = ?,
+                usu_emp_observacoes = ? 
+                WHERE
+                    usu_emp_id = ?;
+                `;
+                //Preparo do array com dados que serão atualizados
+                const values = [nivel_acesso, data_vinculo, usu_emp_status, observacoes, id];
+                //execução e obtenção de confirmação da atualização realizada
+                const [result] = await db.query(sql, values);
+
+                if (result.affectedRows === 0) {
+                    return response.status(404).json ({
+                        sucesso: false,
+                        mensagem: `Empresa ${id} não encontrada`,
+                        dados: null
+                    });
+                }
+                const dados = {
+                usu_emp_id: id,
+                emp_id,
+                usu_id,
+                nivel_acesso,
+                data_vinculo,
+                status: usu_emp_status,
+                observacoes
+                };
             return response.status(200).json (
                 {
                     sucesso: true,
-                    mensagem: 'Atualização de empresa do usuário obtida com sucesso',
-                    dados: null
+                    mensagem: `Usuário da empresa ${id} atualizada com sucesso`,
+                    dados
                 }
             );
         } catch (error) {
             return response.status (500).json (
                 {
                     sucesso: false,
-                    mensagem: `Erro ao atualizar empresa do usuário: ${error.message}`,
-                    dados: null
+                    mensagem: `Erro na requisição`,
+                    dados: error.message
                 }
             );
         }
